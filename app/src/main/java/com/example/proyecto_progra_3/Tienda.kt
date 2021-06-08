@@ -14,7 +14,4 @@ class Tienda (var nombre:String, var localizacion:String){
     fun agregarProducto(nuevoProducto: Producto){
         listaDeProductos.add(nuevoProducto)
     }
-
-
-
 }
