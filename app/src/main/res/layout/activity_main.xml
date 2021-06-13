@@ -25,7 +25,6 @@
         android:layout_marginBottom="30dp"
         app:layout_constraintBottom_toTopOf="@+id/IniciarSesion"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageVirus"
         app:srcCompat="@drawable/anti_covid" />
@@ -37,7 +36,6 @@
         android:text="Registrarse"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.501"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/IniciarSesion" />
 
@@ -49,7 +47,6 @@
         android:text="Iniciar Sesion"
         app:layout_constraintBottom_toTopOf="@+id/buttonRegistrarse"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.501"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageAntiCovid" />
 
