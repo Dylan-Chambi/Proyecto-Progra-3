@@ -1,11 +1,7 @@
 package com.example.proyecto_progra_3
 
-class Tienda (var nombre:String, var localizacion:String){
+class Tienda(nombre: String, x: Int, y: Int, var localizacion: String) : Lugar(nombre, x, y){
     val listaDeProductos: MutableList<Producto> = mutableListOf()
-
-    fun cambiarNombre(nuevoNombre: String){
-        nombre = nuevoNombre
-    }
 
     fun cambiarLocalizacion(nuevaLocalizacion: String){
         localizacion = nuevaLocalizacion
