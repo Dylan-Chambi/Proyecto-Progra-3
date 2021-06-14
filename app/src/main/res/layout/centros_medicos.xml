@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/fondoverde"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:background="#77D353"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ssu" />
+
+    <TextView
+        android:id="@+id/fondoAzul"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:background="#4BBFFF"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tituloCentrosMedicos"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="CENTROS MEDICOS"
+        android:textColor="#000000"
+        android:textSize="24dp"
+        app:layout_constraintBottom_toBottomOf="@+id/fondoAzul"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/imagenCruzRoja"
+        app:layout_constraintTop_toTopOf="@+id/fondoAzul" />
+
+    <ImageView
+        android:id="@+id/imagenCruzRoja"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginLeft="10dp"
+        app:layout_constraintBottom_toBottomOf="@+id/fondoAzul"
+        app:layout_constraintStart_toStartOf="@+id/fondoAzul"
+        app:layout_constraintTop_toTopOf="@+id/fondoAzul"
+        app:srcCompat="@drawable/cruz_roja" />
+
+    <ImageView
+        android:id="@+id/clinicaDelSur"
+        android:layout_width="300dp"
+        android:layout_height="210dp"
+        android:layout_marginTop="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/fondoAzul"
+        app:srcCompat="@drawable/clinica_del_sur" />
+
+    <ImageView
+        android:id="@+id/ssu"
+        android:layout_width="300dp"
+        android:layout_height="200dp"
+        android:layout_marginTop="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/fondoverde1"
+        app:srcCompat="@drawable/ssu" />
+
+    <TextView
+        android:id="@+id/fondoverde1"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:background="#77D353"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/clinicaDelSur" />
+
+    <TextView
+        android:id="@+id/textView5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginLeft="10dp"
+        android:text="Clinica del Sur"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="@+id/fondoverde1"
+        app:layout_constraintStart_toStartOf="@+id/fondoverde1"
+        app:layout_constraintTop_toBottomOf="@+id/clinicaDelSur" />
+
+    <TextView
+        android:id="@+id/textView6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="20dp"
+        android:layout_marginRight="20dp"
+        android:text="8Km"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="@+id/fondoverde1"
+        app:layout_constraintEnd_toEndOf="@+id/fondoverde1"
+        app:layout_constraintTop_toBottomOf="@+id/clinicaDelSur" />
+
+    <TextView
+        android:id="@+id/textView7"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginLeft="10dp"
+        android:text="S.S.U."
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="@+id/fondoverde"
+        app:layout_constraintStart_toStartOf="@+id/fondoverde"
+        app:layout_constraintTop_toTopOf="@+id/fondoverde" />
+
+    <TextView
+        android:id="@+id/textView8"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="20dp"
+        android:layout_marginRight="20dp"
+        android:text="12Km"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="@+id/fondoverde"
+        app:layout_constraintEnd_toEndOf="@+id/fondoverde"
+        app:layout_constraintTop_toTopOf="@+id/fondoverde" />
+
+    <TextView
+        android:id="@+id/textView9"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
+        android:text="Espacios Disponibles: 45"
+        app:layout_constraintBottom_toBottomOf="@+id/fondoverde1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/textView10"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
+        android:text="Espacios Disponibles: 45"
+        app:layout_constraintBottom_toBottomOf="@+id/fondoverde"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>
