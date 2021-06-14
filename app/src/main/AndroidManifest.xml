@@ -10,8 +10,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".Farmacias"></activity>
-        <activity android:name=".PantallaAmbulancia" />
-        <activity android:name=".LoginScreen" />
+        <activity android:name=".SearchProductActivity"></activity>
+        <activity android:name=".PantallaAmbulancia" ></activity>
+        <activity android:name=".LoginScreen" ></activity>
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

@@ -7,6 +7,7 @@ import android.widget.*
 import java.util.*
 
 class SearchProductActivity : AppCompatActivity() {
+    @ExperimentalStdlibApi
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_search_product)
@@ -43,6 +44,7 @@ class SearchProductActivity : AppCompatActivity() {
         }
     }
 
+    @ExperimentalStdlibApi
     fun isOnTextKMP(patron: String, texto: String): Boolean{
         val patronLength = patron.length
         val textoLength = texto.length
@@ -53,7 +55,7 @@ class SearchProductActivity : AppCompatActivity() {
         var indicePatron = -1
         vectorTexto[0] = -1
         while(indice < patronLength){
-            while(indicePatron >= 0 && patron[indice] != patron[indicePatron]){
+            while(indicePatron >= 0 && patron[indice].lowercase() != patron[indicePatron].lowercase().stripAccents()){
                 indicePatron = vectorTexto[indicePatron]
             }
             indice++
@@ -65,7 +67,7 @@ class SearchProductActivity : AppCompatActivity() {
         indice = 0
         indicePatron = 0
         while(indice < textoLength){
-            while(indicePatron >= 0 && texto[indice] != patron[indicePatron]){
+            while(indicePatron >= 0 && texto[indice].lowercase() != patron[indicePatron].lowercase().stripAccents()){
                 indicePatron = vectorTexto[indicePatron]
             }
             indice++
