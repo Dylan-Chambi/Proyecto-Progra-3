@@ -43,7 +43,7 @@
         app:layout_constraintTop_toBottomOf="@+id/logoAntiCovid" />
 
     <EditText
-        android:id="@+id/textoConfirmarContraseña"
+        android:id="@+id/textoConfirmarContrasenia"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:ems="10"
@@ -53,16 +53,16 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textoContraseña" />
+        app:layout_constraintTop_toBottomOf="@+id/textoContrasenia" />
 
     <EditText
-        android:id="@+id/textoContraseña"
+        android:id="@+id/textoContrasenia"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:ems="10"
         android:hint="Contraseña:"
         android:inputType="textPassword"
-        app:layout_constraintBottom_toTopOf="@+id/textoConfirmarContraseña"
+        app:layout_constraintBottom_toTopOf="@+id/textoConfirmarContrasenia"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
@@ -75,7 +75,7 @@
         android:ems="10"
         android:hint="Numero De Telefono:"
         android:inputType="textPassword"
-        app:layout_constraintBottom_toTopOf="@+id/textoContraseña"
+        app:layout_constraintBottom_toTopOf="@+id/textoContrasenia"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
@@ -116,5 +116,5 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textoConfirmarContraseña" />
+        app:layout_constraintTop_toBottomOf="@+id/textoConfirmarContrasenia" />
 </androidx.constraintlayout.widget.ConstraintLayout>
