@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFFFFF"
+    tools:context=".Farmacias">
+
+    <TextView
+        android:id="@+id/fondoTitulo"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:background="#4BBFFF"
+        android:textColor="#000000"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tituloPantalla"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="FARMACIAS/TIENDAS"
+        android:textColor="#000000"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toBottomOf="@+id/fondoTitulo"
+        app:layout_constraintEnd_toStartOf="@+id/lupa"
+        app:layout_constraintStart_toEndOf="@+id/f"
+        app:layout_constraintTop_toTopOf="@+id/fondoTitulo" />
+
+    <ImageView
+        android:id="@+id/f"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginLeft="10dp"
+        app:layout_constraintBottom_toBottomOf="@+id/fondoTitulo"
+        app:layout_constraintStart_toStartOf="@+id/fondoTitulo"
+        app:layout_constraintTop_toTopOf="@+id/fondoTitulo"
+        app:srcCompat="@drawable/F" />
+
+    <TextView
+        android:id="@+id/farmaciaGloriaFondo"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:background="#77D353"
+        app:layout_constraintTop_toBottomOf="@+id/farmaciaGloriaMapa"
+        tools:layout_editor_absoluteX="127dp" />
+
+    <TextView
+        android:id="@+id/farmaciaGloriaNombre"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginLeft="10dp"
+        android:text="Farmacia Gloria"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="@+id/farmaciaGloriaFondo"
+        app:layout_constraintStart_toStartOf="@+id/farmaciaGloriaFondo"
+        app:layout_constraintTop_toTopOf="@+id/farmaciaGloriaFondo" />
+
+    <TextView
+        android:id="@+id/farmaciaGloriaDistancia"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="20dp"
+        android:layout_marginRight="20dp"
+        android:text="2 Km"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="@+id/farmaciaGloriaFondo"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/farmaciaGloriaFondo" />
+
+    <ImageView
+        android:id="@+id/farmaciaGloriaMapa"
+        android:layout_width="300dp"
+        android:layout_height="200dp"
+        android:layout_marginTop="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/fondoTitulo"
+        app:srcCompat="@drawable/farmacia_gloria" />
+
+    <ImageView
+        android:id="@+id/todoOxigenoMapa"
+        android:layout_width="300dp"
+        android:layout_height="200dp"
+        android:layout_marginTop="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/farmaciaGloriaFondo"
+        app:srcCompat="@drawable/todo_oxigeno" />
+
+    <TextView
+        android:id="@+id/todoOxigenoFondo"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:background="#77D353"
+        android:textColor="#000000"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/todoOxigenoMapa" />
+
+    <TextView
+        android:id="@+id/todoOxigenoNombre"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginLeft="10dp"
+        android:text="Todo Oxígeno"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="@+id/todoOxigenoFondo"
+        app:layout_constraintStart_toStartOf="@+id/todoOxigenoFondo"
+        app:layout_constraintTop_toTopOf="@+id/todoOxigenoFondo" />
+
+    <TextView
+        android:id="@+id/todoOxigenoDistancia"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="20dp"
+        android:layout_marginRight="20dp"
+        android:text="8 Km"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="@+id/todoOxigenoFondo"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/todoOxigenoFondo" />
+
+    <ImageView
+        android:id="@+id/lupa"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        app:layout_constraintBottom_toBottomOf="@+id/fondoTitulo"
+        app:layout_constraintEnd_toEndOf="@+id/fondoTitulo"
+        app:layout_constraintTop_toTopOf="@+id/fondoTitulo"
+        app:srcCompat="@drawable/lupa" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
