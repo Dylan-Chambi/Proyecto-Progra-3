@@ -20,7 +20,6 @@ fun String.stripAccents(): String{
         c2 = c2.replace("í", "i")
         c2 = c2.replace("ó", "o")
         c2 = c2.replace("ú", "u")
-
         c = c2.single()
         sb.setCharAt(cont, c)
         cont++

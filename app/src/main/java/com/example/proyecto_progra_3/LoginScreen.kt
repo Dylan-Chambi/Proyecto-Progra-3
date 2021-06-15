@@ -25,6 +25,7 @@ class LoginScreen : AppCompatActivity() {
                 if (nombreDeUsuario.text.toString() == it.nombreUsuario && contrasenia.text.toString() == it.contrasenia) {
                     usuarioEncontrado = true
                     val intent = Intent(this, Menu::class.java)
+                    finish()
                     startActivity(intent)
                 }
             }
