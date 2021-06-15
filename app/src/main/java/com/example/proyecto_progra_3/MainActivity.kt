@@ -17,9 +17,9 @@ class MainActivity : AppCompatActivity() {
             val intent = Intent(this, LoginScreen::class.java)
             startActivity(intent)
         }
-//        botonRegistrar.setOnClickListener {
-//            val intent = Intent(this, PantallaRegistrarse::class.java)
-//            startActivity(intent)
-//        }
+        botonRegistrar.setOnClickListener {
+            val intent = Intent(this, PantallaRegistrar::class.java)
+           startActivity(intent)
+        }
     }
 }

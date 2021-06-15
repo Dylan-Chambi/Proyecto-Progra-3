@@ -9,10 +9,22 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".LoginScreen" />
-        <activity android:name=".Farmacias"/>
-        <activity android:name=".PantallaAmbulancia"/>
-        <activity android:name=".SearchProductActivity"/>
+        <activity android:name=".LoginScreen"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".Farmacias"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".CentrosMedicos"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".Guias"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".Menu"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".PantallaRegistrar"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".PantallaAmbulancia"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".SearchProductActivity"
+            android:screenOrientation="portrait"/>
         <activity android:name=".MainActivity"
             android:screenOrientation="portrait">
             <intent-filter>
