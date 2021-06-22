@@ -78,7 +78,7 @@ class CentrosMedicosActivity: AppCompatActivity(){
         }
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-            val inflated = LayoutInflater.from(parent.context).inflate(R.layout.list_centros_medicos, parent, false)
+            val inflated = LayoutInflater.from(parent.context).inflate(R.layout.layout_recycler_view_centros_medicos, parent, false)
             return ViewHolder(inflated)
         }
 

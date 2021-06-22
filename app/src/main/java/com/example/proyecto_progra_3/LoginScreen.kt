@@ -36,8 +36,7 @@ class LoginScreen : AppCompatActivity() {
                 "Nombre de Usuario o Contraseña Incorrectos Porfavor Intentelo de Nuevo",
                 Toast.LENGTH_LONG
             ).show()
-        }
-
+            }
         }
     }
 
