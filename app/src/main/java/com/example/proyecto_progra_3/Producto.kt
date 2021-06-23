@@ -1,11 +1,4 @@
 package com.example.proyecto_progra_3
-import java.text.SimpleDateFormat
-import java.util.*
-
-fun Date.toString(format: String, locale: Locale = Locale.getDefault()): String {
-    val formatter = SimpleDateFormat(format, locale)
-    return formatter.format(this)
-}
 
 class Producto (val nombre:String, var precio: Float, var cantidad: Int){
     fun cambiarPrecio(nuevoPrecio:Float){
