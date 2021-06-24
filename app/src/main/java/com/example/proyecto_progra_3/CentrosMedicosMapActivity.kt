@@ -4,15 +4,18 @@ import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.pm.PackageManager
+import android.location.Location
+import android.location.LocationManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.view.*
 import android.widget.*
 import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.*
 import com.google.android.gms.maps.*
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
@@ -21,23 +24,24 @@ class CentrosMedicosMapActivity : AppCompatActivity(), OnMapReadyCallback {
     lateinit var recyclerViewCentroMedico: RecyclerView
     lateinit var map: GoogleMap
     lateinit var fusedLocationProviderClient: FusedLocationProviderClient
-
+    lateinit var locationRequest: LocationRequest
+    lateinit var userLocation: LatLng
     companion object {
-        const val REQUEST_CODE_LOCATION = 0
+        const val REQUEST_CODE_LOCATION = 1010
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_centros_medicos_map)
+        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this)
         recyclerViewCentroMedico = findViewById(R.id.recyclerViewCM)
         createMapFragment()
         val adapter = CentrosmedicosRecyclerViewAdapter(this, centrosMedicosListNear)
         val layoutManager = LinearLayoutManager(this)
         recyclerViewCentroMedico.adapter = adapter
         recyclerViewCentroMedico.layoutManager = layoutManager
-
     }
-    fun createMapFragment(){
+    private fun createMapFragment(){
         val mapFragment = supportFragmentManager.findFragmentById(R.id.mapCentrosMedicos) as SupportMapFragment
         mapFragment.getMapAsync(this)
     }
@@ -48,46 +52,73 @@ class CentrosMedicosMapActivity : AppCompatActivity(), OnMapReadyCallback {
             map.addMarker(MarkerOptions().position(it.latidud))
         }
         enableLocation()
-        /* Intento de obtenmer la ubicacion y hacer zoom
-        val ubicacionUsuario = getLocation()
-        if(ubicacionUsuario != null) {
-            map.animateCamera(CameraUpdateFactory.newLatLngZoom(ubicacionUsuario, 10f))
-        }
-        */
-    }
-    /** Funcion que deberia dar la ubicacion
-    private fun getLocation(): LatLng?{
-        var ubicacion: LatLng? = null
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) return ubicacion
-        fusedLocationProviderClient.lastLocation.addOnSuccessListener {
-            if(it == null){
-                Toast.makeText(this, "Sorry can't get location", Toast.LENGTH_SHORT).show()
-            }else it.apply {
-                val latitude =  it.latitude
-                val longitude = it.longitude
-                ubicacion = LatLng(latitude, longitude)
-                Toast.makeText(this@CentrosMedicosMapActivity, "latitude: $latitude, longitude: $longitude", Toast.LENGTH_SHORT).show()
-            }
-        }
-        return ubicacion
-    }
-    */
+        getLastLocation()
+        Handler(Looper.getMainLooper()).postDelayed(
+            {
+                map.animateCamera(CameraUpdateFactory.newLatLngZoom(userLocation, 16f))
+            }, 20
+        )
 
-    fun isLocationPermissionGranted() = ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
-
+    }
 
     @SuppressLint("MissingPermission")
     private fun enableLocation(){
         if(!::map.isInitialized) return
-        if(isLocationPermissionGranted()){
+        if(isLocationEnabled()){
             map.isMyLocationEnabled = true
         }else{
             requestPermissionLocation()
         }
     }
 
+    @SuppressLint("MissingPermission")
+    fun getLastLocation(){
+        if(checkPermission()){
+            if(isLocationEnabled()){
+                fusedLocationProviderClient.lastLocation.addOnCompleteListener {task->
+                    val location:Location? = task.result
+                    if(location == null){
+                            getNewLocation()
+                    }else {
+                        userLocation = LatLng(location.latitude, location.longitude)
+                    }
+                    }
+            }else{
+                Toast.makeText(this,"Please Turn on Your device Location",Toast.LENGTH_SHORT).show()
+            }
+        }else{
+            requestPermissionLocation()
+        }
+    }
 
-    fun requestPermissionLocation(){
+
+    @SuppressLint("MissingPermission")
+    fun getNewLocation(){
+        with(locationRequest) {
+            locationRequest = LocationRequest()
+            priority = LocationRequest.PRIORITY_HIGH_ACCURACY
+            interval = 0
+            fastestInterval = 0
+            numUpdates = 1
+        }
+        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this)
+        fusedLocationProviderClient.requestLocationUpdates(
+            locationRequest,locationCallback,Looper.myLooper()
+        )
+    }
+
+
+    private val locationCallback = object : LocationCallback(){
+        override fun onLocationResult(locationResult: LocationResult) {
+            val lastLocation: Location = locationResult.lastLocation
+            userLocation = LatLng(lastLocation.latitude, lastLocation.longitude)
+        }
+    }
+
+    private fun checkPermission() = ActivityCompat.checkSelfPermission(this,android.Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED ||
+            ActivityCompat.checkSelfPermission(this,android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
+
+    private fun requestPermissionLocation(){
         if(ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.ACCESS_FINE_LOCATION)){
             Toast.makeText(this, "active permissions on settings", Toast.LENGTH_SHORT).show()
         }else{
@@ -96,14 +127,22 @@ class CentrosMedicosMapActivity : AppCompatActivity(), OnMapReadyCallback {
         }
     }
 
-    @SuppressLint("MissingPermission", "MissingSuperCall")
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray)   {
-        when(REQUEST_CODE_LOCATION){ REQUEST_CODE_LOCATION -> if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED){
-            map.isMyLocationEnabled = true
-        }else{
-                    Toast.makeText(this, "active permissions on settings to do something", Toast.LENGTH_SHORT).show()
-        }
-            else -> {}
+    private fun isLocationEnabled():Boolean{
+        val locationManager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
+        return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) || locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)
+    }
+
+
+    @SuppressLint("MissingSuperCall", "MissingPermission")
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        if(requestCode == REQUEST_CODE_LOCATION){
+            if(grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED){
+                map.isMyLocationEnabled = true
+            }
         }
     }
 
@@ -111,15 +150,13 @@ class CentrosMedicosMapActivity : AppCompatActivity(), OnMapReadyCallback {
     override fun onResumeFragments() {
         super.onResumeFragments()
         if(!::map.isInitialized)return
-        if(!isLocationPermissionGranted()){
+        if(!checkPermission()){
             map.isMyLocationEnabled = false
             Toast.makeText(this, "active permissions on settings to do something", Toast.LENGTH_SHORT).show()
         }
     }
 
-    inner class CentrosmedicosRecyclerViewAdapter(val context: Context, val list: List<CentroMedico>): RecyclerView.Adapter<OptionsViewHolder>() {
-
-        var funcionMenuOptionClick: ((centroMedico: CentroMedico) -> Unit)? = null
+    inner class CentrosmedicosRecyclerViewAdapter(val context: Context, private val list: List<CentroMedico>): RecyclerView.Adapter<OptionsViewHolder>() {
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): OptionsViewHolder {
             val layoutInflater = LayoutInflater.from(context)

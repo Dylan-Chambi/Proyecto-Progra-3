@@ -1,5 +1,7 @@
 package com.example.proyecto_progra_3
 
+import android.content.Context
+import android.widget.Toast
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -32,4 +34,11 @@ fun String.stripAccents(): String{
 fun Date.toString(format: String, locale: Locale = Locale.getDefault()): String {
     val formatter = SimpleDateFormat(format, locale)
     return formatter.format(this)
+}
+fun showShortMessage(context: Context, message: String){
+    Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
+}
+
+fun showLongMessage(context: Context, message: String){
+    Toast.makeText(context, message, Toast.LENGTH_LONG).show()
 }
