@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "268230315085",
+    "project_id": "proyecto-anti-covid-19-a95cb",
+    "storage_bucket": "proyecto-anti-covid-19-a95cb.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:268230315085:android:718a193a5bbcaa95f22004",
+        "android_client_info": {
+          "package_name": "com.example.proyecto_progra_3"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "268230315085-k1s22micb2nug548o8ptj2gkvp10o9kd.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDv2MPodA0ryyyfi126XMLWmpN3JkvR8mo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "268230315085-k1s22micb2nug548o8ptj2gkvp10o9kd.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
