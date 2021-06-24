@@ -51,12 +51,16 @@ class CentrosMedicosMapActivity : AppCompatActivity(), OnMapReadyCallback {
         centrosMedicosListNear.forEach{
             map.addMarker(MarkerOptions().position(it.latidud))
         }
+        if(!checkPermission()){
+            requestPermissionLocation()
+            return
+        }
         enableLocation()
         getLastLocation()
         Handler(Looper.getMainLooper()).postDelayed(
             {
                 map.animateCamera(CameraUpdateFactory.newLatLngZoom(userLocation, 16f))
-            }, 20
+            }, 100
         )
 
     }
@@ -115,14 +119,15 @@ class CentrosMedicosMapActivity : AppCompatActivity(), OnMapReadyCallback {
         }
     }
 
-    private fun checkPermission() = ActivityCompat.checkSelfPermission(this,android.Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED ||
+    private fun checkPermission() = ActivityCompat.checkSelfPermission(this,android.Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED &&
             ActivityCompat.checkSelfPermission(this,android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
 
     private fun requestPermissionLocation(){
-        if(ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.ACCESS_FINE_LOCATION)){
+        if(ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.ACCESS_FINE_LOCATION) ||
+            ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.ACCESS_COARSE_LOCATION)){
             Toast.makeText(this, "active permissions on settings", Toast.LENGTH_SHORT).show()
         }else{
-            ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
+            ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION),
                 REQUEST_CODE_LOCATION)
         }
     }
@@ -153,6 +158,14 @@ class CentrosMedicosMapActivity : AppCompatActivity(), OnMapReadyCallback {
         if(!checkPermission()){
             map.isMyLocationEnabled = false
             Toast.makeText(this, "active permissions on settings to do something", Toast.LENGTH_SHORT).show()
+        }else{
+            enableLocation()
+            getLastLocation()
+            Handler(Looper.getMainLooper()).postDelayed(
+                {
+                    map.animateCamera(CameraUpdateFactory.newLatLngZoom(userLocation, 16f))
+                }, 100
+            )
         }
     }
 

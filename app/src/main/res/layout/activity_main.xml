@@ -8,46 +8,55 @@
 
     <ImageView
         android:id="@+id/imageVirus"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="40dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         app:layout_constraintBottom_toTopOf="@+id/imageAntiCovid"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent="0.40"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_chainStyle="packed"
+        app:layout_constraintWidth_percent="0.80"
         app:srcCompat="@drawable/virus1" />
 
     <ImageView
         android:id="@+id/imageAntiCovid"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="30dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="24dp"
         app:layout_constraintBottom_toTopOf="@+id/IniciarSesion"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent=".10"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageVirus"
+        app:layout_constraintWidth_percent=".80"
         app:srcCompat="@drawable/anti_covid" />
 
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/buttonRegistrarse"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="16dp"
         android:text="Registrarse"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/IniciarSesion" />
+        app:layout_constraintHeight_percent=".08"
+        app:layout_constraintTop_toBottomOf="@+id/IniciarSesion"
+        app:layout_constraintWidth_percent=".35" />
 
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/IniciarSesion"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="20dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="32dp"
         android:text="Iniciar Sesion"
         app:layout_constraintBottom_toTopOf="@+id/buttonRegistrarse"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent=".08"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageAntiCovid" />
+        app:layout_constraintTop_toBottomOf="@+id/imageAntiCovid"
+        app:layout_constraintWidth_percent=".35" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
