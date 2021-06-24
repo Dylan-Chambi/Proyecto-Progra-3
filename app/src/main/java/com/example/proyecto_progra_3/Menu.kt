@@ -19,7 +19,7 @@ class Menu : AppCompatActivity() {
             startActivity(intent)
         }
         centrosMEdicosButton.setOnClickListener{
-            val intent = Intent(this, CentrosMedicosActivity::class.java)
+            val intent = Intent(this, CentrosMedicosMapActivity::class.java)
             startActivity(intent)
         }
         ambulanciaButton.setOnClickListener {

@@ -16,7 +16,6 @@ fun String.stripAccents(): String{
     while (chars.size > cont) {
         var c: Char = chars[cont]
         var c2:String = c.toString()
-        //these are my needs, in case you need to convert other accents just Add new entries aqui
         c2 = c2.replace("á", "a")
         c2 = c2.replace("é", "e")
         c2 = c2.replace("í", "i")

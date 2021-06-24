@@ -139,9 +139,9 @@ class CentrosMedicosActivity: AppCompatActivity(){
 }
 val centrosMedicosList = listOf(
     CentroMedico("Clinica Del Sur", LatLng(-16.52570128266036, -68.10872254226858)),
-    CentroMedico("Clinica Del Sur", LatLng(-16.52570128266036, -68.10872254226858)),
-    CentroMedico("Clinica Del Sur", LatLng(-16.52570128266036, -68.10872254226858)),
-    CentroMedico("Clinica Del Sur", LatLng(-16.52570128266036, -68.10872254226858)),
+    CentroMedico("Hospital Arcoiris", LatLng(-16.52570128266036, -68.10872254226858)),
+    CentroMedico("Hospital Cuarenta", LatLng(-16.52570128266036, -68.10872254226858)),
+    CentroMedico("Clinica Del Norte", LatLng(-16.52570128266036, -68.10872254226858)),
     CentroMedico("Clinica Del Sur", LatLng(-16.52570128266036, -68.10872254226858)),
     CentroMedico("Clinica Del Sur", LatLng(-16.52570128266036, -68.10872254226858)),
     CentroMedico("Clinica Del Sur", LatLng(-16.52570128266036, -68.10872254226858)),
