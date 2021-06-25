@@ -3,11 +3,9 @@ package com.example.proyecto_progra_3
 import android.content.ContentValues.TAG
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
-import android.widget.Button
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.widget.*
 import com.example.proyecto_progra_3.databinding.ActivityLoginScreenBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
@@ -16,11 +14,7 @@ import com.google.firebase.ktx.Firebase
 class LoginScreen : AppCompatActivity() {
 
     private lateinit var binding: ActivityLoginScreenBinding
-    private lateinit var progressBar: ProgressBar
     private lateinit var auth: FirebaseAuth
-    lateinit var enterButton: Button
-    lateinit var userEmail: EditText
-    lateinit var userPassword: EditText
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,18 +28,11 @@ class LoginScreen : AppCompatActivity() {
         binding = ActivityLoginScreenBinding.inflate(layoutInflater)
         setContentView(binding.root)
         auth = Firebase.auth
-
-        progressBar = findViewById(R.id.progressBarLogin)
-        enterButton = findViewById(R.id.botonEntrar)
-        userEmail = findViewById(R.id.nombreDeUsuario)
-        userPassword = findViewById(R.id.contrasenia)
-        enterButton.setOnClickListener{
-
-        }
+        
         binding.botonEntrar.setOnClickListener {
-            progressBar.visibility = View.VISIBLE
-            val email = userEmail.text.toString()
-            val password = userPassword.text.toString()
+            binding.progressBarLogin.visibility = View.VISIBLE
+            val email = binding.nombreDeUsuario.text.toString()
+            val password = binding.contrasenia.text.toString()
             when{
                 email.isEmpty() || password.isEmpty() -> {
                     showShortMessage(this, "Authentication failed.")
@@ -69,8 +56,8 @@ class LoginScreen : AppCompatActivity() {
                     val user = auth.currentUser
                     showShortMessage(baseContext, "Authentication success.")
                     val intent = Intent(this, Menu::class.java)
+                    finishAffinity()
                     startActivity(intent)
-                    finish()
                 } else {
                     // If sign in fails, display a message to the user.
                     Log.w(TAG, "signInWithEmail:failure", task.exception)

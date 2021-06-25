@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -11,7 +10,6 @@
         android:layout_height="100dp"
         app:layout_constraintBottom_toTopOf="@+id/registrarse"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/virus1" />
@@ -22,7 +20,6 @@
         android:layout_height="144dp"
         app:layout_constraintBottom_toTopOf="@+id/textoNombreDeUsuario"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/registrarse"
         app:srcCompat="@drawable/icono_usuario" />
@@ -38,7 +35,6 @@
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/iconoUsuario"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/logoAntiCovid" />
 
@@ -48,10 +44,10 @@
         android:layout_height="wrap_content"
         android:ems="10"
         android:hint="Confirmar Contraseña"
-        android:inputType="textEmailAddress"
-        app:layout_constraintBottom_toTopOf="@+id/textoBotonEntrar"
+        android:inputType="textPassword"
+        app:layout_constraintBottom_toTopOf="@+id/registerButton"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textoContrasenia" />
 
@@ -64,7 +60,6 @@
         android:inputType="textPassword"
         app:layout_constraintBottom_toTopOf="@+id/textoConfirmarContrasenia"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/numeroDeTelefono" />
 
@@ -74,23 +69,21 @@
         android:layout_height="wrap_content"
         android:ems="10"
         android:hint="Numero De Telefono:"
-        android:inputType="textPassword"
+        android:inputType="phone"
         app:layout_constraintBottom_toTopOf="@+id/textoContrasenia"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textoNombreYApellido" />
+        app:layout_constraintTop_toBottomOf="@+id/correoUsuario" />
 
     <EditText
-        android:id="@+id/textoNombreYApellido"
+        android:id="@+id/correoUsuario"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:ems="10"
-        android:hint="Nombre y Apellido:"
+        android:hint="Correo Electronico: "
         android:inputType="textPersonName"
         app:layout_constraintBottom_toTopOf="@+id/numeroDeTelefono"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textoNombreDeUsuario" />
 
@@ -99,22 +92,20 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:ems="10"
-        android:hint="Nombre De Usario:"
+        android:hint="Nombre De Usuario:"
         android:inputType="textPersonName"
-        app:layout_constraintBottom_toTopOf="@+id/textoNombreYApellido"
+        app:layout_constraintBottom_toTopOf="@+id/correoUsuario"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/iconoUsuario" />
 
-    <Button
-        android:id="@+id/textoBotonEntrar"
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/registerButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Entrar"
+        android:text="Register"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textoConfirmarContrasenia" />
 </androidx.constraintlayout.widget.ConstraintLayout>
