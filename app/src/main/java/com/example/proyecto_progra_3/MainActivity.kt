@@ -34,8 +34,8 @@ class MainActivity : AppCompatActivity() {
         val user = auth.currentUser
         if(user != null){
             val intent = Intent(this, Menu::class.java)
-            finishAffinity()
             startActivity(intent)
+            finish()
         }
     }
 }
