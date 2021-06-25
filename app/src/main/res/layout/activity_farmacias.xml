@@ -38,7 +38,7 @@
         app:layout_constraintBottom_toBottomOf="@+id/fondoTitulo"
         app:layout_constraintStart_toStartOf="@+id/fondoTitulo"
         app:layout_constraintTop_toTopOf="@+id/fondoTitulo"
-        app:srcCompat="@drawable/f" />
+        app:srcCompat="@drawable/farmacias_menu" />
 
     <TextView
         android:id="@+id/farmaciaGloriaFondo"

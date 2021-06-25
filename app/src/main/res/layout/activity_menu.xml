@@ -5,11 +5,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/tittleBackground"
+    <ImageView
+        android:id="@+id/titleBackground"
         android:layout_width="match_parent"
         android:layout_height="100dp"
-        android:background="#4BBFFF"
+        android:background="@drawable/title_background"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -18,103 +18,139 @@
         android:id="@+id/textoMenu"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="MENU"
-        android:textColor="#000000"
+        android:text="Menú"
+        android:textColor="#ffffff"
         android:textSize="48sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="@+id/tittleBackground"
-        app:layout_constraintEnd_toEndOf="@+id/tittleBackground"
+        app:layout_constraintBottom_toBottomOf="@+id/titleBackground"
+        app:layout_constraintEnd_toEndOf="@+id/titleBackground"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/tittleBackground" />
+        app:layout_constraintTop_toTopOf="@+id/titleBackground" />
+
+    <ImageView
+        android:id="@+id/fondoCentrosMedicos"
+        android:layout_width="@dimen/background_menu_button_dimen"
+        android:layout_height="@dimen/background_menu_button_dimen"
+        android:background="@drawable/centros_shape"
+        app:layout_constraintBottom_toTopOf="@+id/fondoAmbulancia"
+        app:layout_constraintEnd_toStartOf="@+id/fondoFarmacias"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/titleBackground" />
+
+    <ImageView
+        android:id="@+id/fondoFarmacias"
+        android:layout_width="@dimen/background_menu_button_dimen"
+        android:layout_height="@dimen/background_menu_button_dimen"
+        android:background="@drawable/farmacias_shape"
+        app:layout_constraintBottom_toTopOf="@+id/fondoGuias"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/fondoCentrosMedicos"
+        app:layout_constraintTop_toBottomOf="@+id/titleBackground" />
+
+    <ImageView
+        android:id="@+id/fondoAmbulancia"
+        android:layout_width="@dimen/background_menu_button_dimen"
+        android:layout_height="@dimen/background_menu_button_dimen"
+        android:layout_marginBottom="80dp"
+        android:background="@drawable/ambulancia_shape"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/fondoGuias"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/fondoCentrosMedicos" />
+
+    <ImageView
+        android:id="@+id/fondoGuias"
+        android:layout_width="@dimen/background_menu_button_dimen"
+        android:layout_height="@dimen/background_menu_button_dimen"
+        android:layout_marginBottom="80dp"
+        android:background="@drawable/guias_shape"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/fondoAmbulancia"
+        app:layout_constraintTop_toBottomOf="@+id/fondoFarmacias" />
 
     <ImageView
         android:id="@+id/ambulancia"
-        android:layout_width="192dp"
-        android:layout_height="171dp"
-        app:layout_constraintBottom_toTopOf="@+id/textoAmbulancia"
-        app:layout_constraintEnd_toStartOf="@+id/libro"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textoCentrosMedicos"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        app:layout_constraintEnd_toEndOf="@+id/fondoAmbulancia"
+        app:layout_constraintStart_toStartOf="@+id/fondoAmbulancia"
+        app:layout_constraintTop_toTopOf="@+id/fondoAmbulancia"
         app:srcCompat="@drawable/ambulancia" />
 
     <ImageView
+        android:id="@+id/libro"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        app:layout_constraintEnd_toEndOf="@+id/fondoGuias"
+        app:layout_constraintStart_toStartOf="@+id/fondoGuias"
+        app:layout_constraintTop_toTopOf="@+id/fondoGuias"
+        app:srcCompat="@drawable/libro" />
+
+    <ImageView
         android:id="@+id/cruzRoja"
-        android:layout_width="180dp"
-        android:layout_height="164dp"
-        app:layout_constraintBottom_toTopOf="@+id/textoCentrosMedicos"
-        app:layout_constraintEnd_toStartOf="@+id/farmacias"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tittleBackground"
+        android:layout_width="90dp"
+        android:layout_height="90dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintEnd_toEndOf="@+id/fondoCentrosMedicos"
+        app:layout_constraintStart_toStartOf="@+id/fondoCentrosMedicos"
+        app:layout_constraintTop_toTopOf="@+id/fondoCentrosMedicos"
         app:srcCompat="@drawable/cruz_roja" />
 
     <ImageView
         android:id="@+id/farmacias"
-        android:layout_width="176dp"
-        android:layout_height="170dp"
-        app:layout_constraintBottom_toTopOf="@+id/textoFarmaciasTiendas"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/cruzRoja"
-        app:layout_constraintTop_toBottomOf="@+id/tittleBackground"
-        app:srcCompat="@drawable/f" />
-
-    <ImageView
-        android:id="@+id/libro"
-        android:layout_width="180dp"
-        android:layout_height="179dp"
-        app:layout_constraintBottom_toTopOf="@+id/TextoGuias"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/ambulancia"
-        app:layout_constraintTop_toBottomOf="@+id/textoFarmaciasTiendas"
-        app:srcCompat="@drawable/libro" />
+        android:layout_width="90dp"
+        android:layout_height="90dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintEnd_toEndOf="@+id/fondoFarmacias"
+        app:layout_constraintStart_toStartOf="@+id/fondoFarmacias"
+        app:layout_constraintTop_toTopOf="@+id/fondoFarmacias"
+        app:srcCompat="@drawable/farmacias_menu" />
 
     <TextView
         android:id="@+id/textoCentrosMedicos"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
         android:text="CENTROS MEDICOS"
-        app:layout_constraintBottom_toTopOf="@+id/ambulancia"
-        app:layout_constraintEnd_toStartOf="@+id/textoFarmaciasTiendas"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
+        android:textColor="#000000"
+        app:layout_constraintEnd_toEndOf="@+id/fondoCentrosMedicos"
+        app:layout_constraintStart_toStartOf="@+id/fondoCentrosMedicos"
         app:layout_constraintTop_toBottomOf="@+id/cruzRoja" />
 
     <TextView
         android:id="@+id/textoAmbulancia"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="100dp"
         android:text="AMBULANCIA"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/TextoGuias"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
+        android:textColor="#000000"
+        app:layout_constraintEnd_toEndOf="@+id/fondoAmbulancia"
+        app:layout_constraintStart_toStartOf="@+id/fondoAmbulancia"
         app:layout_constraintTop_toBottomOf="@+id/ambulancia" />
 
     <TextView
         android:id="@+id/textoFarmaciasTiendas"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
         android:text="FARMACIAS/TIENDAS"
-        app:layout_constraintBottom_toTopOf="@+id/libro"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/textoCentrosMedicos"
+        android:textColor="#000000"
+        app:layout_constraintEnd_toEndOf="@+id/fondoFarmacias"
+        app:layout_constraintStart_toStartOf="@+id/fondoFarmacias"
         app:layout_constraintTop_toBottomOf="@+id/farmacias" />
 
     <TextView
         android:id="@+id/TextoGuias"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="100dp"
         android:text="GUIAS"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/textoAmbulancia"
+        android:textColor="#000000"
+        app:layout_constraintEnd_toEndOf="@+id/fondoGuias"
+        app:layout_constraintStart_toStartOf="@+id/fondoGuias"
         app:layout_constraintTop_toBottomOf="@+id/libro" />
 
     <Button

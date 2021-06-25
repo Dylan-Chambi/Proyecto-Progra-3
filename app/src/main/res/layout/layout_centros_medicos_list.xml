@@ -3,20 +3,31 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="@color/colorPrimaryDark">
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:id="@+id/backgroundItem"
+        android:layout_width="match_parent"
+        android:layout_height="63dp"
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/item_centros_medicos_shape"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/nombreCM"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
         android:id="@+id/imageCentroMedico"
         android:layout_width="65dp"
         android:layout_height="63dp"
         android:padding="12dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toBottomOf="@+id/backgroundItem"
         app:layout_constraintEnd_toStartOf="@+id/nombreCM"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintHorizontal_chainStyle="packed"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/backgroundItem"
         app:srcCompat="@drawable/cruz_roja" />
 
     <TextView
@@ -25,28 +36,26 @@
         android:layout_height="0dp"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
-        android:textColor="#FFFFFF"
         android:text="TextView"
+        android:textColor="#FFFFFF"
         app:autoSizeTextType="uniform"
-        app:layout_constraintBottom_toBottomOf="@+id/imageCentroMedico"
+        app:layout_constraintBottom_toBottomOf="@+id/backgroundItem"
         app:layout_constraintEnd_toStartOf="@+id/seleccionarCM"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/imageCentroMedico"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="@+id/backgroundItem" />
 
     <Button
         android:id="@+id/seleccionarCM"
         android:layout_width="106dp"
         android:layout_height="46dp"
-        android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
-        android:background="@color/colorAccent"
-        android:textColor="#FFFFFF"
+        android:background="@drawable/item_button_shape"
         android:text="@string/seleccionar"
+        android:textColor="#FFFFFF"
         android:textSize="12sp"
-        app:layout_constraintBottom_toBottomOf="@+id/imageCentroMedico"
+        app:layout_constraintBottom_toBottomOf="@+id/backgroundItem"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/nombreCM"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="@+id/backgroundItem" />
 </androidx.constraintlayout.widget.ConstraintLayout>

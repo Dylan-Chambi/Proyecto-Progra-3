@@ -16,14 +16,15 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         auth = FirebaseAuth.getInstance()
-        loginButton = findViewById<Button>(R.id.IniciarSesion)
-        registerButton = findViewById<Button>(R.id.buttonRegistrarse)
+
+        val loginButton = findViewById<Button>(R.id.buttonIniciarSesion)
+        val botonRegistrar = findViewById<Button>(R.id.buttonRegistrarse)
 
         loginButton.setOnClickListener{
             val intent = Intent(this, LoginScreen::class.java)
             startActivity(intent)
         }
-        registerButton.setOnClickListener {
+        botonRegistrar.setOnClickListener {
             val intent = Intent(this, RegisterActivity::class.java)
            startActivity(intent)
         }

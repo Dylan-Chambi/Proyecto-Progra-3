@@ -10,7 +10,7 @@
         android:id="@+id/CentrosMedicos"
         android:layout_width="0dp"
         android:layout_height="60dp"
-        android:background="@color/colorPrimaryDark"
+        android:background="@drawable/title_background"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
