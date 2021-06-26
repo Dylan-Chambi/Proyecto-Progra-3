@@ -10,134 +10,125 @@
         android:id="@+id/logoAntiCovid"
         android:layout_width="100dp"
         android:layout_height="100dp"
-        app:layout_constraintBottom_toBottomOf="@+id/imageView4"
+        android:layout_marginEnd="24dp"
+        app:layout_constraintBottom_toBottomOf="@+id/arrow"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/imageView4"
-        app:layout_constraintTop_toTopOf="@+id/imageView4"
+        app:layout_constraintStart_toEndOf="@+id/arrow"
+        app:layout_constraintTop_toTopOf="@+id/arrow"
         app:srcCompat="@drawable/virus1" />
 
     <TextView
-        android:id="@+id/registrarse"
+        android:id="@+id/textoRegistrarse"
         android:layout_width="208dp"
         android:layout_height="54dp"
-        android:layout_marginTop="10dp"
         android:alpha="100"
         android:text="Registrarse"
         android:textColor="#ffffff"
         android:textSize="40sp"
         android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/arrow"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.appcompat.widget.AppCompatEditText
         android:id="@+id/textoConfirmarContrasenia"
+        style="@style/EditTextStyle"
         android:layout_width="@dimen/edit_text_width"
         android:layout_height="@dimen/edit_text_height"
-        android:layout_marginBottom="20dp"
         android:ems="10"
         android:hint=" Confirmar Contraseña: "
-        android:inputType="textEmailAddress"
-        style="@style/EditTextStyle"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:inputType="textPassword"
+        app:layout_constraintBottom_toTopOf="@+id/registerButton"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textoContrasenia" />
 
     <androidx.appcompat.widget.AppCompatEditText
         android:id="@+id/textoContrasenia"
+        style="@style/EditTextStyle"
         android:layout_width="@dimen/edit_text_width"
         android:layout_height="@dimen/edit_text_height"
-        android:layout_marginBottom="20dp"
         android:ems="10"
         android:hint=" Contraseña: "
         android:inputType="textPassword"
-        style="@style/EditTextStyle"
         app:layout_constraintBottom_toTopOf="@+id/textoConfirmarContrasenia"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/numeroDeTelefono" />
 
     <androidx.appcompat.widget.AppCompatEditText
         android:id="@+id/numeroDeTelefono"
+        style="@style/EditTextStyle"
         android:layout_width="@dimen/edit_text_width"
         android:layout_height="@dimen/edit_text_height"
-        android:layout_marginBottom="20dp"
         android:ems="10"
         android:hint=" Numero De Telefono: "
         android:inputType="textPassword"
-        style="@style/EditTextStyle"
         app:layout_constraintBottom_toTopOf="@+id/textoContrasenia"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textoNombreDeUsuario" />
 
     <androidx.appcompat.widget.AppCompatEditText
         android:id="@+id/textoNombreDeUsuario"
+        style="@style/EditTextStyle"
         android:layout_width="@dimen/edit_text_width"
         android:layout_height="@dimen/edit_text_height"
-        android:layout_marginBottom="20dp"
         android:ems="10"
         android:hint=" Nombre y Apellido: "
         android:inputType="textPersonName"
-        style="@style/EditTextStyle"
         app:layout_constraintBottom_toTopOf="@+id/numeroDeTelefono"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/correoUsuario" />
 
     <androidx.appcompat.widget.AppCompatEditText
         android:id="@+id/correoUsuario"
+        style="@style/EditTextStyle"
         android:layout_width="@dimen/edit_text_width"
         android:layout_height="@dimen/edit_text_height"
-        android:layout_marginBottom="20dp"
         android:ems="10"
         android:hint=" ejemplo@gmail.com "
         android:inputType="textPersonName"
-        style="@style/EditTextStyle"
         app:layout_constraintBottom_toTopOf="@+id/textoNombreDeUsuario"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView4"
-        app:layout_constraintVertical_chainStyle="packed" />
+        app:layout_constraintTop_toBottomOf="@+id/arrow" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/registerButton"
+        style="@style/ButtonStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
-        style="@style/ButtonStyle"
+        android:layout_marginTop="25dp"
         android:text=" Registrarse "
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textoConfirmarContrasenia" />
 
     <ImageView
-        android:id="@+id/imageView3"
+        android:id="@+id/imagenPerfilVacio"
         android:layout_width="100dp"
         android:layout_height="100dp"
-        app:layout_constraintBottom_toBottomOf="@+id/imageView4"
-        app:layout_constraintEnd_toStartOf="@+id/imageView4"
-        app:layout_constraintHorizontal_bias="0.5"
+        android:layout_marginStart="24dp"
+        app:layout_constraintBottom_toBottomOf="@+id/arrow"
+        app:layout_constraintEnd_toStartOf="@+id/arrow"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/imageView4"
+        app:layout_constraintTop_toTopOf="@+id/arrow"
         app:srcCompat="@drawable/avatar_inicio_sesion" />
 
     <ImageView
-        android:id="@+id/imageView4"
+        android:id="@+id/arrow"
         android:layout_width="80dp"
         android:layout_height="80dp"
-        android:layout_marginTop="40dp"
+        android:layout_marginBottom="50dp"
+        app:tint="#ffffff"
+        app:layout_constraintBottom_toTopOf="@+id/correoUsuario"
         app:layout_constraintEnd_toStartOf="@+id/logoAntiCovid"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/imageView3"
-        app:layout_constraintTop_toBottomOf="@+id/registrarse"
+        app:layout_constraintStart_toEndOf="@+id/imagenPerfilVacio"
+        app:layout_constraintTop_toBottomOf="@+id/textoRegistrarse"
         app:srcCompat="@drawable/arrow" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

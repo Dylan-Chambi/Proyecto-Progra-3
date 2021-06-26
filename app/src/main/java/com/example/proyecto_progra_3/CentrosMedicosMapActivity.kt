@@ -25,7 +25,7 @@ class CentrosMedicosMapActivity : AppCompatActivity(), OnMapReadyCallback {
     lateinit var map: GoogleMap
     lateinit var fusedLocationProviderClient: FusedLocationProviderClient
     lateinit var locationRequest: LocationRequest
-    lateinit var userLocation: LatLng
+    var userLocation: LatLng? = null
     companion object {
         const val REQUEST_CODE_LOCATION = 1010
     }
@@ -64,7 +64,7 @@ class CentrosMedicosMapActivity : AppCompatActivity(), OnMapReadyCallback {
                 }else{
                     showLongMessage(this, "Error getting location.")
                 }
-            }, 100
+            }, 2000
         )
 
     }
@@ -102,8 +102,8 @@ class CentrosMedicosMapActivity : AppCompatActivity(), OnMapReadyCallback {
 
     @SuppressLint("MissingPermission")
     fun getNewLocation(){
+        locationRequest = LocationRequest()
         with(locationRequest) {
-            locationRequest = LocationRequest()
             priority = LocationRequest.PRIORITY_HIGH_ACCURACY
             interval = 0
             fastestInterval = 0

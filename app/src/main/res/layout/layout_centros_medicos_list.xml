@@ -9,6 +9,8 @@
         android:id="@+id/backgroundItem"
         android:layout_width="match_parent"
         android:layout_height="63dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
         android:layout_marginBottom="10dp"
         android:background="@drawable/item_centros_medicos_shape"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -18,15 +20,14 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
-        android:id="@+id/imageCentroMedico"
+        android:id="@+id/imageCruzRoja"
         android:layout_width="65dp"
         android:layout_height="63dp"
         android:padding="12dp"
         app:layout_constraintBottom_toBottomOf="@+id/backgroundItem"
         app:layout_constraintEnd_toStartOf="@+id/nombreCM"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintHorizontal_chainStyle="packed"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toStartOf="@id/backgroundItem"
         app:layout_constraintTop_toTopOf="@+id/backgroundItem"
         app:srcCompat="@drawable/cruz_roja" />
 
@@ -42,7 +43,7 @@
         app:layout_constraintBottom_toBottomOf="@+id/backgroundItem"
         app:layout_constraintEnd_toStartOf="@+id/seleccionarCM"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/imageCentroMedico"
+        app:layout_constraintStart_toEndOf="@+id/imageCruzRoja"
         app:layout_constraintTop_toTopOf="@+id/backgroundItem" />
 
     <Button
@@ -54,8 +55,8 @@
         android:text="@string/seleccionar"
         android:textColor="#FFFFFF"
         android:textSize="12sp"
-        app:layout_constraintBottom_toBottomOf="@+id/backgroundItem"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="@id/backgroundItem"
+        app:layout_constraintEnd_toEndOf="@id/backgroundItem"
         app:layout_constraintStart_toEndOf="@+id/nombreCM"
         app:layout_constraintTop_toTopOf="@+id/backgroundItem" />
 </androidx.constraintlayout.widget.ConstraintLayout>
