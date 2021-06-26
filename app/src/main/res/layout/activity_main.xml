@@ -24,6 +24,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="60dp"
+        android:layout_marginBottom="12dp"
         android:text=" Iniciar Sesion "
         app:layout_constraintBottom_toTopOf="@+id/buttonRegistrarse"
         app:layout_constraintEnd_toEndOf="parent"
