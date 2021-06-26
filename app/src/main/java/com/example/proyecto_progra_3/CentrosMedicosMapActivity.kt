@@ -59,7 +59,11 @@ class CentrosMedicosMapActivity : AppCompatActivity(), OnMapReadyCallback {
         getLastLocation()
         Handler(Looper.getMainLooper()).postDelayed(
             {
-                map.animateCamera(CameraUpdateFactory.newLatLngZoom(userLocation, 16f))
+                if(userLocation != null) {
+                    map.animateCamera(CameraUpdateFactory.newLatLngZoom(userLocation, 16f))
+                }else{
+                    showLongMessage(this, "Error getting location.")
+                }
             }, 100
         )
 
