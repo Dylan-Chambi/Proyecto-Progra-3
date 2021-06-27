@@ -55,7 +55,7 @@ class LoginScreen : AppCompatActivity() {
                     Log.d(TAG, "signInWithEmail:success")
                     val user = auth.currentUser
                     showShortMessage(baseContext, "Authentication success.")
-                    val intent = Intent(this, Menu::class.java)
+                    val intent = Intent(this, MenuActivity::class.java)
                     finishAffinity()
                     startActivity(intent)
                 } else {

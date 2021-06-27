@@ -34,7 +34,7 @@ class MainActivity : AppCompatActivity() {
         super.onStart()
         val user = auth.currentUser
         if(user != null){
-            val intent = Intent(this, Menu::class.java)
+            val intent = Intent(this, MenuActivity::class.java)
             startActivity(intent)
             finish()
         }
