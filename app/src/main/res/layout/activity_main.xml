@@ -9,8 +9,11 @@
 
     <ImageView
         android:id="@+id/imageVirus"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintHeight_percent=".38"
+        app:layout_constraintWidth_percent=".68"
+        android:layout_marginTop="12dp"
         app:layout_constraintBottom_toTopOf="@+id/imageAntiCovid"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
