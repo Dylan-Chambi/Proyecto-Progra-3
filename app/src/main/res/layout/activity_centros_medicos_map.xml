@@ -7,7 +7,7 @@
     tools:context=".CentrosMedicosMapActivity">
 
     <ImageView
-        android:id="@+id/CentrosMedicos"
+        android:id="@+id/Farmacias"
         android:layout_width="0dp"
         android:layout_height="60dp"
         android:background="@drawable/title_background"
@@ -17,15 +17,15 @@
         tools:ignore="ContentDescription" />
 
     <ImageView
-        android:id="@+id/cruzRojaCentrosMedicos"
+        android:id="@+id/F"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
-        app:layout_constraintBottom_toBottomOf="@+id/CentrosMedicos"
-        app:layout_constraintEnd_toStartOf="@+id/centrosMedicosTituloText"
+        app:layout_constraintBottom_toBottomOf="@+id/Farmacias"
+        app:layout_constraintEnd_toStartOf="@+id/farmaciasTituloText"
         app:layout_constraintHorizontal_chainStyle="packed"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -33,16 +33,16 @@
         tools:ignore="ContentDescription" />
 
     <TextView
-        android:id="@+id/centrosMedicosTituloText"
+        android:id="@+id/farmaciasTituloText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/centros_medicos"
         android:textColor="#FFFFFF"
         android:textSize="34sp"
         app:autoSizeTextType="uniform"
-        app:layout_constraintBottom_toBottomOf="@+id/CentrosMedicos"
+        app:layout_constraintBottom_toBottomOf="@+id/Farmacias"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/CentrosMedicos"
+        app:layout_constraintStart_toStartOf="@+id/Farmacias"
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.fragment.app.FragmentContainerView
@@ -55,7 +55,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/CentrosMedicos"
+        app:layout_constraintTop_toBottomOf="@+id/Farmacias"
         app:layout_constraintVertical_chainStyle="packed" />
 
     <androidx.recyclerview.widget.RecyclerView

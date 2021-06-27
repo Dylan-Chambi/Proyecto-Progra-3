@@ -47,7 +47,7 @@ class MenuActivity : AppCompatActivity() {
             true
         }
         farmaciasButton.setOnClickListener{
-            val intent = Intent(this, SearchProductActivity::class.java)
+            val intent = Intent(this, FarmaciasActivity::class.java)
             startActivity(intent)
         }
         centrosMEdicosButton.setOnClickListener{

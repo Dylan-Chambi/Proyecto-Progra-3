@@ -20,8 +20,8 @@ import com.google.android.gms.maps.*
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 
-class CentrosMedicosMapActivity : AppCompatActivity(), OnMapReadyCallback {
-    lateinit var recyclerViewCentroMedico: RecyclerView
+class FarmaciasActivity : AppCompatActivity(), OnMapReadyCallback {
+    lateinit var recyclerViewFarmacia: RecyclerView
     lateinit var map: GoogleMap
     lateinit var fusedLocationProviderClient: FusedLocationProviderClient
     lateinit var locationRequest: LocationRequest
@@ -32,23 +32,23 @@ class CentrosMedicosMapActivity : AppCompatActivity(), OnMapReadyCallback {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_centros_medicos_map)
+        setContentView(R.layout.activity_farmacias)
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this)
-        recyclerViewCentroMedico = findViewById(R.id.recyclerViewCM)
+        recyclerViewFarmacia = findViewById(R.id.recyclerViewCM)
         createMapFragment()
-        val adapter = CentrosmedicosRecyclerViewAdapter(this, centrosMedicosListNear)
+        val adapter = FarmaciasRecyclerViewAdapter(this, farmaciasListNear)
         val layoutManager = LinearLayoutManager(this)
-        recyclerViewCentroMedico.adapter = adapter
-        recyclerViewCentroMedico.layoutManager = layoutManager
+        recyclerViewFarmacia.adapter = adapter
+        recyclerViewFarmacia.layoutManager = layoutManager
     }
     private fun createMapFragment(){
-        val mapFragment = supportFragmentManager.findFragmentById(R.id.mapCentrosMedicos) as SupportMapFragment
+        val mapFragment = supportFragmentManager.findFragmentById(R.id.mapFarmacia) as SupportMapFragment
         mapFragment.getMapAsync(this)
     }
 
     override fun onMapReady(googleMap: GoogleMap) {
         map = googleMap
-        centrosMedicosListNear.forEach{
+        farmaciasListNear.forEach{
             map.addMarker(MarkerOptions().position(it.latidud))
         }
         if(!checkPermission()){
@@ -86,11 +86,11 @@ class CentrosMedicosMapActivity : AppCompatActivity(), OnMapReadyCallback {
                 fusedLocationProviderClient.lastLocation.addOnCompleteListener {task->
                     val location:Location? = task.result
                     if(location == null){
-                            getNewLocation()
+                        getNewLocation()
                     }else {
                         userLocation = LatLng(location.latitude, location.longitude)
                     }
-                    }
+                }
             }else{
                 Toast.makeText(this,"Please Turn on Your device Location",Toast.LENGTH_SHORT).show()
             }
@@ -173,11 +173,11 @@ class CentrosMedicosMapActivity : AppCompatActivity(), OnMapReadyCallback {
         }
     }
 
-    inner class CentrosmedicosRecyclerViewAdapter(val context: Context, private val list: List<Localizacion>): RecyclerView.Adapter<OptionsViewHolder>() {
+    inner class FarmaciasRecyclerViewAdapter(val context: Context, private val list: List<Localizacion>): RecyclerView.Adapter<OptionsViewHolder>() {
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): OptionsViewHolder {
             val layoutInflater = LayoutInflater.from(context)
-            val itemListView = layoutInflater.inflate(R.layout.layout_centros_medicos_list, parent, false)
+            val itemListView = layoutInflater.inflate(R.layout.layout_farmacias_list, parent, false)
             return OptionsViewHolder(itemListView)
         }
 
@@ -187,7 +187,7 @@ class CentrosMedicosMapActivity : AppCompatActivity(), OnMapReadyCallback {
                 map.animateCamera(CameraUpdateFactory.newLatLngZoom(list[position].latidud, 16f))
             }
             holder.buttonSeleccionarCM.setOnClickListener {
-                Toast.makeText(this@CentrosMedicosMapActivity, "nombre: ${list[position].nombre} latitud: ${list[position].latidud.latitude} longitude: ${list[position].latidud.longitude}", Toast.LENGTH_LONG).show()
+                Toast.makeText(this@FarmaciasActivity, "nombre: ${list[position].nombre} latitud: ${list[position].latidud.latitude} longitude: ${list[position].latidud.longitude}", Toast.LENGTH_LONG).show()
             }
             /* Para llamar a algun elemento en especifico
             holder.imageButton.setOnClickListener {
@@ -200,22 +200,22 @@ class CentrosMedicosMapActivity : AppCompatActivity(), OnMapReadyCallback {
 //            funcionMenuOptionClick?.invoke(list[position])
 //        }
         }
-        override fun getItemCount() = centrosMedicosListNear.size
+        override fun getItemCount() = farmaciasListNear.size
     }
 
     class OptionsViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
         // variables en pantalla
-        val nombreCentroMedico: TextView = itemView.findViewById(R.id.nombreCM)
+        val nombreFarmacia: TextView = itemView.findViewById(R.id.nombreCM)
         val buttonSeleccionarCM: Button = itemView.findViewById(R.id.seleccionarCM)
         fun bind(Localizacion: Localizacion) {
             // bindear cada opcion en pantalla para cada elemento de la lista
-            nombreCentroMedico.text = Localizacion.nombre
+            nombreFarmacia.text = Localizacion.nombre
 
         }
     }
 }
 
-private val centrosMedicosListNear = listOf(
+private val farmaciasListNear = listOf(
     Localizacion("Centro Medico DarSalud",LatLng(-16.504024200101696, -68.13402742379976)),
     Localizacion("Hospital Obrero",LatLng(-16.499304030713155, -68.11820522924992)),
     Localizacion("Hospital San Gabriel",LatLng(-16.491417633237607, -68.1165448294589)),

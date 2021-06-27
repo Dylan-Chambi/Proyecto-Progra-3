@@ -29,7 +29,7 @@
         app:layout_constraintHorizontal_chainStyle="packed"
         app:layout_constraintStart_toStartOf="@id/backgroundItem"
         app:layout_constraintTop_toTopOf="@+id/backgroundItem"
-        app:srcCompat="@drawable/cruz_roja" />
+        app:srcCompat="@drawable/farmacias_menu" />
 
     <TextView
         android:id="@+id/nombreCM"
