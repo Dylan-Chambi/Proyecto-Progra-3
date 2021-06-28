@@ -4,17 +4,33 @@
     tools:showIn="navigation_view">
     <group>
         <item
-            android:id="@+id/profileButton"
+            android:id="@+id/medicalCentersButton"
+            android:icon="@drawable/cruz_roja"
+            android:title="Medical Centers" />
+        <item
+            android:id="@+id/pharmacyButton"
+            android:icon="@drawable/farmacias_menu"
+            android:title="Pharmacy" />
+        <item
+            android:id="@+id/ambulancesButton"
             android:icon="@drawable/ambulancia"
-            android:title="Profile" />
+            android:title="Ambulances" />
+        <item
+            android:id="@+id/guidesButton"
+            android:icon="@drawable/libro"
+            android:title="Guides" />
         <item
             android:id="@+id/settingsButton"
-            android:icon="@drawable/cruz_roja"
+            android:icon="@drawable/settings"
             android:title="Settings" />
     </group>
 
     <item android:title="Profile Options">
         <menu>
+            <item
+                android:id="@+id/profileButton"
+                android:icon="@drawable/profile"
+                android:title="Profile" />
             <item
                 android:id="@+id/logOutButton"
                 android:icon="@drawable/cruz_roja"

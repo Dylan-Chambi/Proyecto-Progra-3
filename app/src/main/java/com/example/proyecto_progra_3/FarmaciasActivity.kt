@@ -3,6 +3,7 @@ package com.example.proyecto_progra_3
 import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.Location
 import android.location.LocationManager
@@ -12,35 +13,114 @@ import android.os.Handler
 import android.os.Looper
 import android.view.*
 import android.widget.*
+import androidx.appcompat.app.ActionBarDrawerToggle
+import androidx.appcompat.widget.Toolbar
 import androidx.core.app.ActivityCompat
+import androidx.core.view.GravityCompat
+import androidx.drawerlayout.widget.DrawerLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.gms.location.*
 import com.google.android.gms.maps.*
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
+import com.google.android.material.navigation.NavigationView
+import com.google.firebase.auth.FirebaseAuth
 
 class FarmaciasActivity : AppCompatActivity(), OnMapReadyCallback {
     lateinit var recyclerViewFarmacia: RecyclerView
     lateinit var map: GoogleMap
+    private lateinit var auth: FirebaseAuth
     lateinit var fusedLocationProviderClient: FusedLocationProviderClient
     lateinit var locationRequest: LocationRequest
+    private lateinit var drawer: DrawerLayout
+    private lateinit var toogle: ActionBarDrawerToggle
     var userLocation: LatLng? = null
     companion object {
         const val REQUEST_CODE_LOCATION = 1010
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        theme.applyStyle(R.style.AppThemeGreen, true)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_farmacias)
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this)
         recyclerViewFarmacia = findViewById(R.id.recyclerViewCM)
         createMapFragment()
+        val toolbar = findViewById<Toolbar>(R.id.toolbarPharmacy)
         val adapter = FarmaciasRecyclerViewAdapter(this, farmaciasListNear)
         val layoutManager = LinearLayoutManager(this)
+        val navMenu = findViewById<NavigationView>(R.id.navigationViewMenu)
         recyclerViewFarmacia.adapter = adapter
         recyclerViewFarmacia.layoutManager = layoutManager
+
+
+        drawer = findViewById(R.id.drawerLayoutMenu)
+
+        toogle = ActionBarDrawerToggle(this, drawer, toolbar, R.string.open, R.string.close)
+        drawer.addDrawerListener(toogle)
+        toogle.syncState()
+
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        navMenu.setNavigationItemSelectedListener {
+            when (it.itemId) {
+                R.id.medicalCentersButton -> {
+                    val intentMC = Intent(this, CentrosMedicosMapActivity::class.java)
+                    startActivity(intentMC)
+                    drawer.closeDrawer(GravityCompat.START)
+                    finish()
+                }
+                R.id.pharmacyButton -> {
+                    drawer.closeDrawer(GravityCompat.START)
+                }
+                R.id.ambulancesButton -> {
+                    val intentA = Intent(this, PantallaAmbulancia::class.java)
+                    startActivity(intentA)
+                    drawer.closeDrawer(GravityCompat.START)
+                    finish()
+                }
+                R.id.guidesButton -> {
+                    val intentG = Intent(this, Guias::class.java)
+                    startActivity(intentG)
+                    drawer.closeDrawer(GravityCompat.START)
+                    finish()
+                }
+                R.id.settingsButton -> {
+                    showLongMessage(this, "Click on Settings")
+                    /*
+                    val intentMC = Intent(this, CentrosMedicosMapActivity::class.java)
+                    startActivity(intentMC)
+                     */
+                }
+                R.id.profileButton -> showLongMessage(this, "Click on Profile")
+                R.id.logOutButton -> logOut()
+            }
+            true
+        }
     }
+    private fun logOut(){
+        auth.signOut()
+        val intent = Intent(this, MainActivity::class.java)
+        startActivity(intent)
+        showLongMessage(this, "Log Out successfully")
+        finish()
+    }
+    //para que el boton funcione
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if(toogle.onOptionsItemSelected(item)) {
+            return true
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
+    override fun onBackPressed() {
+        if(drawer.isDrawerOpen(GravityCompat.START)){
+            drawer.closeDrawer(GravityCompat.START)
+        }else {
+            super.onBackPressed()
+        }
+    }
+
     private fun createMapFragment(){
         val mapFragment = supportFragmentManager.findFragmentById(R.id.mapFarmacia) as SupportMapFragment
         mapFragment.getMapAsync(this)

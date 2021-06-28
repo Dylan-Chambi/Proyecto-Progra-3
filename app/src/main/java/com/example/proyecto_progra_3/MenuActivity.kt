@@ -40,8 +40,34 @@ class MenuActivity : AppCompatActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         navMenu.setNavigationItemSelectedListener {
             when(it.itemId){
+                R.id.medicalCentersButton ->{
+                    val intentMC = Intent(this, CentrosMedicosMapActivity::class.java)
+                    startActivity(intentMC)
+                    drawer.closeDrawer(GravityCompat.START)
+                }
+                R.id.pharmacyButton ->{
+                    val intentP = Intent(this, FarmaciasActivity::class.java)
+                    startActivity(intentP)
+                    drawer.closeDrawer(GravityCompat.START)
+                }
+                R.id.ambulancesButton ->{
+                    val intentA = Intent(this, PantallaAmbulancia::class.java)
+                    startActivity(intentA)
+                    drawer.closeDrawer(GravityCompat.START)
+                }
+                R.id.guidesButton ->{
+                    val intentG = Intent(this, Guias::class.java)
+                    startActivity(intentG)
+                    drawer.closeDrawer(GravityCompat.START)
+                }
+                R.id.settingsButton ->{
+                    showLongMessage(this,"Click on Settings")
+                    /*
+                    val intentMC = Intent(this, CentrosMedicosMapActivity::class.java)
+                    startActivity(intentMC)
+                     */
+                }
                 R.id.profileButton -> showLongMessage(this,"Click on Profile")
-                R.id.settingsButton -> showLongMessage(this, "Click on Settings")
                 R.id.logOutButton -> logOut()
             }
             true
