@@ -18,16 +18,20 @@ import androidx.drawerlayout.widget.DrawerLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.google.android.gms.maps.model.LatLng
+import com.example.proyecto_progra_3.YouTubeResponse.Example
+import com.example.proyecto_progra_3.YouTubeResponse.Items
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 
 class Guias : AppCompatActivity() {
     private lateinit var auth: FirebaseAuth
     private lateinit var drawer: DrawerLayout
     private lateinit var toogle: ActionBarDrawerToggle
-    lateinit var recyclerViewCentroMedico: RecyclerView
+    lateinit var recyclerViewGuias: RecyclerView
 
 
 
@@ -37,14 +41,15 @@ class Guias : AppCompatActivity() {
         setContentView(R.layout.activity_guias)
         drawer = findViewById(R.id.drawerLayoutMenu)
 
-        recyclerViewCentroMedico = findViewById(R.id.recyclerViewGuias)
+        cargarVideos()
+
+
         val toolbar = findViewById<Toolbar>(R.id.toolbarGuides)
-        val adapter = guiasRecyclerViewAdapter(this, guiasList)
-        val layoutManager = LinearLayoutManager(this)
+
+
         val navMenu = findViewById<NavigationView>(R.id.navigationViewMenu)
 
-        recyclerViewCentroMedico.adapter = adapter
-        recyclerViewCentroMedico.layoutManager = layoutManager
+
         toogle = ActionBarDrawerToggle(this, drawer, toolbar,R.string.open, R.string.close)
         drawer.addDrawerListener(toogle)
         toogle.syncState()
@@ -87,6 +92,25 @@ class Guias : AppCompatActivity() {
         }
     }
 
+    private fun cargarVideos(){
+        val youtube = YoutubeClient.getClient()?.obtenerVideos("snippet", "guias para el covid", 10, "AIzaSyAprtyzLqPPeIJprReQb4vkin1oAoS6vl8")?.enqueue(object:Callback<Example>{
+            override fun onResponse(call: Call<Example>, response: Response<Example>) {
+//                Toast.makeText(this@Guias, response.body().toString(), Toast.LENGTH_SHORT).show()
+                val answer = response.body() as Example
+                recyclerViewGuias = findViewById(R.id.recyclerViewGuias)
+                val adapter = guiasRecyclerViewAdapter(this@Guias, answer.items)
+                val layoutManager = LinearLayoutManager(this@Guias)
+                recyclerViewGuias.adapter = adapter
+                recyclerViewGuias.layoutManager = layoutManager
+            }
+
+            override fun onFailure(call: Call<Example>, t: Throwable) {
+                Toast.makeText(this@Guias, "ERROR!", Toast.LENGTH_SHORT).show()
+            }
+
+        })
+    }
+
     private fun logOut(){
         auth.signOut()
         val intent = Intent(this, MainActivity::class.java)
@@ -110,7 +134,7 @@ class Guias : AppCompatActivity() {
         }
     }
 
-    inner class guiasRecyclerViewAdapter(val context: Context, private val list: List<Guia>): RecyclerView.Adapter<OptionsViewHolder>() {
+    inner class guiasRecyclerViewAdapter(val context: Context, private val list: List<Items>): RecyclerView.Adapter<OptionsViewHolder>() {
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): OptionsViewHolder {
             val layoutInflater = LayoutInflater.from(context)
@@ -121,12 +145,12 @@ class Guias : AppCompatActivity() {
         override fun onBindViewHolder(holder: OptionsViewHolder, position: Int) {
             holder.bind(context, list[position])
             holder.backgroundItem.setOnClickListener {
-                val intent = Intent(Intent.ACTION_VIEW, Uri.parse(list[position].url))
+                val intent = Intent(Intent.ACTION_VIEW, Uri.parse(list[position].snippet.thumbnails.default.url))
                 startActivity(intent)
             }
 //        }
         }
-        override fun getItemCount() = guiasList.size
+        override fun getItemCount() = list.size
     }
 
     class OptionsViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
@@ -135,13 +159,13 @@ class Guias : AppCompatActivity() {
         val backgroundItem: ImageView = itemView.findViewById(R.id.backgroundItem)
         val tituloGuia: TextView = itemView.findViewById(R.id.tituloYoutube)
         val descripcionGuia: TextView = itemView.findViewById(R.id.descripcionYoutube)
-        fun bind(context: Context, guia: Guia) {
+        fun bind(context: Context, item: Items) {
             // bindear cada opcion en pantalla para cada elemento de la lista
             Glide.with(context)
-                    .load(guia.imagen)
+                    .load(item.snippet.thumbnails.medium.url)
                     .into(miniaturaGuia)
-            tituloGuia.text=guia.titulo
-            descripcionGuia.text=guia.descripcion
+            tituloGuia.text=item.snippet.title
+            descripcionGuia.text=item.snippet.description
         }
     }
 }
