@@ -143,15 +143,20 @@ class FarmaciasActivity : AppCompatActivity(), OnMapReadyCallback {
         }
         enableLocation()
         getLastLocation()
-        Handler(Looper.getMainLooper()).postDelayed(
-            {
-                if(userLocation != null && checkPermission()) {
-                    map.animateCamera(CameraUpdateFactory.newLatLngZoom(userLocation, 16f))
-                }else{
-                    showLongMessage(this, "Error getting location.")
-                }
-            }, 1000
-        )
+        if(!checkPermission()) {
+            requestPermissionLocation()
+            return
+        }else {
+            Handler(Looper.getMainLooper()).postDelayed(
+                {
+                    if (userLocation != null && checkPermission()) {
+                        map.animateCamera(CameraUpdateFactory.newLatLngZoom(userLocation!!, 16f))
+                    } else {
+                        showLongMessage(this, "Error getting location.")
+                    }
+                }, 1000
+            )
+        }
 
     }
 
@@ -237,7 +242,9 @@ class FarmaciasActivity : AppCompatActivity(), OnMapReadyCallback {
         if(requestCode == REQUEST_CODE_LOCATION){
             if(grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED){
                 map.isMyLocationEnabled = true
-                map.animateCamera(CameraUpdateFactory.newLatLngZoom(userLocation, 16f))
+                if(userLocation != null && checkPermission()) {
+                    map.animateCamera(CameraUpdateFactory.newLatLngZoom(userLocation!!, 16f))
+                }
             }
         }
     }
