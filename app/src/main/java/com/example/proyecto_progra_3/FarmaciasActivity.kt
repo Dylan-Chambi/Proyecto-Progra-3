@@ -292,7 +292,7 @@ class FarmaciasActivity : AppCompatActivity(), OnMapReadyCallback {
 
     class OptionsViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
         // variables en pantalla
-        val nombreFarmacia: TextView = itemView.findViewById(R.id.pharmacyName)
+        val nombreFarmacia: TextView = itemView.findViewById(R.id.nombre)
         val buttonSeleccionarCM: Button = itemView.findViewById(R.id.selectPharmacy)
         fun bind(Localizacion: Localizacion) {
             // bindear cada opcion en pantalla para cada elemento de la lista

@@ -19,20 +19,29 @@
             android:layout_height="?attr/actionBarSize"
             android:background="@color/brown"
             android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-            app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerViewGuias"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="#ffffff"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/toolbarGuides" />
 
         <ImageView
             android:id="@+id/imagenLibro"
             android:layout_width="60dp"
             android:layout_height="53dp"
-            android:layout_marginBottom="7dp"
             app:layout_constraintBottom_toBottomOf="@+id/toolbarGuides"
             app:layout_constraintEnd_toStartOf="@+id/textoGuias"
             app:layout_constraintStart_toStartOf="@+id/toolbarGuides"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/toolbarGuides"
             app:srcCompat="@drawable/libro" />
 
         <TextView
@@ -46,76 +55,6 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@+id/toolbarGuides"
             app:layout_constraintTop_toTopOf="@+id/toolbarGuides" />
-
-        <ImageView
-            android:id="@+id/guia1"
-            android:layout_width="411dp"
-            android:layout_height="85dp"
-            app:layout_constraintBottom_toTopOf="@+id/guia2"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/toolbarGuides"
-            app:srcCompat="@drawable/guia1" />
-
-        <ImageView
-            android:id="@+id/guia2"
-            android:layout_width="411dp"
-            android:layout_height="87dp"
-            app:layout_constraintBottom_toTopOf="@+id/guia3"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/guia1"
-            app:srcCompat="@drawable/guia2" />
-
-        <ImageView
-            android:id="@+id/guia3"
-            android:layout_width="411dp"
-            android:layout_height="87dp"
-            app:layout_constraintBottom_toTopOf="@+id/guia4"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/guia2"
-            app:srcCompat="@drawable/guia3" />
-
-        <ImageView
-            android:id="@+id/guia4"
-            android:layout_width="411dp"
-            android:layout_height="87dp"
-            app:layout_constraintBottom_toTopOf="@+id/guia5"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/guia3"
-            app:srcCompat="@drawable/guia4" />
-
-        <ImageView
-            android:id="@+id/guia5"
-            android:layout_width="411dp"
-            android:layout_height="87dp"
-            app:layout_constraintBottom_toTopOf="@+id/guia6"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/guia4"
-            app:srcCompat="@drawable/guia5" />
-
-        <ImageView
-            android:id="@+id/guia6"
-            android:layout_width="411dp"
-            android:layout_height="87dp"
-            app:layout_constraintBottom_toTopOf="@+id/guia7"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/guia5"
-            app:srcCompat="@drawable/guia6" />
-
-        <ImageView
-            android:id="@+id/guia7"
-            android:layout_width="411dp"
-            android:layout_height="87dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/guia6"
-            app:srcCompat="@drawable/guia7" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <com.google.android.material.navigation.NavigationView

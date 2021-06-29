@@ -90,14 +90,14 @@ class PharmacySearch : AppCompatActivity() {
         private fun countProductsPharmacy(product: String): Int{
             var cont = 0
             pharmacyList.forEach {
-                if(ifHasOneProduct(product, it.productList)){
+                if(hasOneProduct(product, it.productList)){
                     cont++
                 }
             }
             return cont
         }
 
-        private fun ifHasOneProduct(product: String, productList: List<Producto>): Boolean{
+        private fun hasOneProduct(product: String, productList: List<Producto>): Boolean{
             for (x in productList) {
                 if(product == x.nombre && x.cantidad > 0) {
                     return true

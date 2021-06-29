@@ -86,7 +86,8 @@ class MenuActivity : AppCompatActivity() {
             startActivity(intent)
         }
         guiasButton.setOnClickListener {
-            val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://www.youtube.com/watch?v=6hLnEUN5UXw"))
+//            val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://www.youtube.com/watch?v=6hLnEUN5UXw"))
+            val intent = Intent(this, Guias::class.java)
             startActivity(intent)
         }
 

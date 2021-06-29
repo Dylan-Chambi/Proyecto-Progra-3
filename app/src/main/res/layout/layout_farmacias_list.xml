@@ -10,11 +10,12 @@
         android:layout_width="match_parent"
         android:layout_height="75dp"
         android:layout_marginStart="8dp"
+        android:layout_marginTop="5dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginBottom="10dp"
+        android:layout_marginBottom="5dp"
         android:background="@drawable/item_centros_medicos_farmacias_shape"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/pharmacyName"
+        app:layout_constraintEnd_toStartOf="@+id/nombre"
         app:layout_constraintHorizontal_chainStyle="packed"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -25,22 +26,22 @@
         android:layout_height="63dp"
         android:padding="9dp"
         app:layout_constraintBottom_toBottomOf="@+id/backgroundItem"
-        app:layout_constraintEnd_toStartOf="@+id/pharmacyName"
+        app:layout_constraintEnd_toStartOf="@+id/nombre"
         app:layout_constraintHorizontal_chainStyle="packed"
         app:layout_constraintStart_toStartOf="@id/backgroundItem"
         app:layout_constraintTop_toTopOf="@+id/backgroundItem"
         app:srcCompat="@drawable/farmacias_menu" />
 
     <TextView
-        android:id="@+id/pharmacyName"
+        android:id="@+id/nombre"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:text="TextView"
-        android:textStyle="bold"
         android:textColor="@color/white"
+        android:textStyle="bold"
         app:autoSizeTextType="uniform"
         app:layout_constraintBottom_toTopOf="@+id/pharmacyDistance"
         app:layout_constraintEnd_toStartOf="@+id/selectPharmacy"
@@ -62,7 +63,7 @@
         app:layout_constraintBottom_toBottomOf="@+id/backgroundItem"
         app:layout_constraintEnd_toStartOf="@+id/selectPharmacy"
         app:layout_constraintStart_toEndOf="@+id/pharmacyIcon"
-        app:layout_constraintTop_toBottomOf="@+id/pharmacyName"
+        app:layout_constraintTop_toBottomOf="@+id/nombre"
         app:layout_constraintVertical_weight="1" />
 
     <Button
@@ -77,6 +78,6 @@
         app:autoSizeTextType="uniform"
         app:layout_constraintBottom_toBottomOf="@id/backgroundItem"
         app:layout_constraintEnd_toEndOf="@id/backgroundItem"
-        app:layout_constraintStart_toEndOf="@+id/pharmacyName"
+        app:layout_constraintStart_toEndOf="@+id/nombre"
         app:layout_constraintTop_toTopOf="@+id/backgroundItem" />
 </androidx.constraintlayout.widget.ConstraintLayout>

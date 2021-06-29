@@ -72,7 +72,7 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:ems="10"
-            android:hint="Search Product..."
+            android:hint="Buscar producto..."
             android:inputType="textPersonName"
             android:paddingStart="15dp"
             android:paddingEnd="15dp"
