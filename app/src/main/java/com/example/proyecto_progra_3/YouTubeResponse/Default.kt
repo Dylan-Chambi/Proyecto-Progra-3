@@ -1,0 +1,13 @@
+package com.example.proyecto_progra_3.YouTubeResponse
+
+import com.google.gson.annotations.Expose
+import com.google.gson.annotations.SerializedName
+
+   
+data class Default (
+
+   @Expose var url : String,
+   @Expose var width : Int,
+   @Expose var height : Int
+
+)
