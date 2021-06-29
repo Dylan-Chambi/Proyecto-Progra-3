@@ -3,4 +3,7 @@
     <string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">
         AIzaSyBg2_Oh21qhlhs7Zm1oQ-aBDww5nk70jN4
     </string>
+    <string name="youtube_api_key" templateMergeStrategy="preserve" translatable="false">
+        AIzaSyAprtyzLqPPeIJprReQb4vkin1oAoS6vl8
+    </string>
 </resources>
