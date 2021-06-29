@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    tools:context=".CentrosMedicosMapActivity"
+    tools:context=".AmbulanciasActivity"
     android:fitsSystemWindows="true">
 
 
@@ -18,25 +18,14 @@
             android:id="@+id/toolBarMC"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            app:title="Centros Medicos"
+            app:title="Ambulancias"
             app:titleTextColor="@color/white"
             android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-            android:background="#F44336"
+            android:background="@drawable/title_background"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
-
-        <androidx.fragment.app.FragmentContainerView
-            android:id="@+id/mapCentrosMedicos"
-            android:name="com.google.android.gms.maps.SupportMapFragment"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            app:layout_constraintBottom_toTopOf="@+id/recyclerViewCM"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/toolBarMC"
-            app:layout_constraintVertical_chainStyle="packed" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerViewCM"
@@ -45,7 +34,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/mapCentrosMedicos" />
+            app:layout_constraintTop_toBottomOf="@+id/toolBarMC" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

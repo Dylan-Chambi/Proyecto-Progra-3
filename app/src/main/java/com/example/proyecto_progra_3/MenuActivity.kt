@@ -51,7 +51,7 @@ class MenuActivity : AppCompatActivity() {
                     drawer.closeDrawer(GravityCompat.START)
                 }
                 R.id.ambulancesButton ->{
-                    val intentA = Intent(this, PantallaAmbulancia::class.java)
+                    val intentA = Intent(this, AmbulanciasActivity::class.java)
                     startActivity(intentA)
                     drawer.closeDrawer(GravityCompat.START)
                 }
@@ -81,7 +81,7 @@ class MenuActivity : AppCompatActivity() {
             startActivity(intent)
         }
         ambulanciaButton.setOnClickListener {
-            val intent = Intent(this, PantallaAmbulancia::class.java)
+            val intent = Intent(this, AmbulanciasActivity::class.java)
             startActivity(intent)
         }
         guiasButton.setOnClickListener {

@@ -5,7 +5,6 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.graphics.drawable.Drawable
 import android.location.Location
 import android.location.LocationManager
 import androidx.appcompat.app.AppCompatActivity
@@ -17,7 +16,6 @@ import android.widget.*
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.widget.Toolbar
 import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -26,7 +24,6 @@ import com.google.android.gms.location.*
 import com.google.android.gms.maps.*
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
-import com.google.android.material.internal.NavigationMenu
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
 
@@ -76,7 +73,7 @@ class CentrosMedicosMapActivity : AppCompatActivity(), OnMapReadyCallback {
                     finish()
                 }
                 R.id.ambulancesButton ->{
-                    val intentA = Intent(this, PantallaAmbulancia::class.java)
+                    val intentA = Intent(this, AmbulanciasActivity::class.java)
                     startActivity(intentA)
                     drawer.closeDrawer(GravityCompat.START)
                     finish()

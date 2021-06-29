@@ -45,7 +45,7 @@ class Guias : AppCompatActivity() {
                     finish()
                 }
                 R.id.ambulancesButton ->{
-                    val intentA = Intent(this, PantallaAmbulancia::class.java)
+                    val intentA = Intent(this, AmbulanciasActivity::class.java)
                     startActivity(intentA)
                     drawer.closeDrawer(GravityCompat.START)
                     finish()

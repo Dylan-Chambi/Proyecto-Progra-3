@@ -48,7 +48,7 @@
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity" />
         <activity
-            android:name=".PantallaAmbulancia"
+            android:name=".AmbulanciasActivity"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity" />
         <activity

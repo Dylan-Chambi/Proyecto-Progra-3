@@ -6,35 +6,35 @@
         <item
             android:id="@+id/medicalCentersButton"
             android:icon="@drawable/cruz_roja"
-            android:title="Medical Centers" />
+            android:title="Centros Medicos" />
         <item
             android:id="@+id/pharmacyButton"
             android:icon="@drawable/farmacias_menu"
-            android:title="Pharmacy" />
+            android:title="Farmacias" />
         <item
             android:id="@+id/ambulancesButton"
             android:icon="@drawable/ambulancia"
-            android:title="Ambulances" />
+            android:title="Ambulancias" />
         <item
             android:id="@+id/guidesButton"
             android:icon="@drawable/libro"
-            android:title="Guides" />
+            android:title="Guias" />
         <item
             android:id="@+id/settingsButton"
             android:icon="@drawable/settings"
-            android:title="Settings" />
+            android:title="Ajustes" />
     </group>
 
-    <item android:title="Profile Options">
+    <item android:title="Cuenta">
         <menu>
             <item
                 android:id="@+id/profileButton"
                 android:icon="@drawable/profile"
-                android:title="Profile" />
+                android:title="Perfil" />
             <item
                 android:id="@+id/logOutButton"
                 android:icon="@drawable/cruz_roja"
-                android:title="Log Out" />
+                android:title="Cerrar Sesión" />
         </menu>
     </item>
 

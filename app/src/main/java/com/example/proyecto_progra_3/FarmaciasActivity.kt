@@ -74,7 +74,7 @@ class FarmaciasActivity : AppCompatActivity(), OnMapReadyCallback {
                     drawer.closeDrawer(GravityCompat.START)
                 }
                 R.id.ambulancesButton -> {
-                    val intentA = Intent(this, PantallaAmbulancia::class.java)
+                    val intentA = Intent(this, AmbulanciasActivity::class.java)
                     startActivity(intentA)
                     drawer.closeDrawer(GravityCompat.START)
                     finish()
@@ -296,20 +296,20 @@ class FarmaciasActivity : AppCompatActivity(), OnMapReadyCallback {
 }
 
 private val farmaciasListNear = listOf(
-    Localizacion("Centro Medico DarSalud",LatLng(-16.504024200101696, -68.13402742379976)),
-    Localizacion("Hospital Obrero",LatLng(-16.499304030713155, -68.11820522924992)),
-    Localizacion("Hospital San Gabriel",LatLng(-16.491417633237607, -68.1165448294589)),
-    Localizacion("Hospital Juan XXII",LatLng(-16.48754617592828, -68.15741547056331)),
-    Localizacion("Hospital Arco Iris",LatLng(-16.484140961667883, -68.1203588000111)),
-    Localizacion("Hospital Boliviano Holandes",LatLng(-16.52239640701212, -68.1536687705633)),
-    Localizacion("Hospital Municipal de Cotahuma", LatLng(-16.515550063703703, -68.1395231411155)),
-    Localizacion("Hospital Metodista",LatLng(-16.527081507360545, -68.10444582945891)),
-    Localizacion("Hospital Del Norte",LatLng(-16.490278176123415, -68.20442080001112)),
-    Localizacion("Hospital Universitario Nuestra Señora de La Paz",LatLng(-16.526615250171098, -68.1281684411155)),
-    Localizacion("Hospital De Clinicas",LatLng(-16.507528699100344, -68.11873685052839)),
-    Localizacion("Clinica Alemana",LatLng(-16.513638592006387, -68.12143527056331)),
-    Localizacion("Clinica Del Sur",LatLng(-16.525696807215358, -68.10872318221992)),
-    Localizacion("Clinica Medica Lausanne",LatLng(-16.52942647892273, -68.11036190001111)),
-    Localizacion("Clinica Rengel",LatLng(-16.514459202414344, -68.12882499002932)),
-    Localizacion("Clinica AMID",LatLng(-16.505894134320183, -68.11913560001112))
+    Localizacion("Farmacias Bolivia Centro",LatLng(-16.500762838991538, -68.13311031737985)),
+    Localizacion("Farmacorp Prado",LatLng(-16.50344164456266, -68.1317027049167)),
+    Localizacion("Farmacias Chavez",LatLng(-16.499188355286304, -68.1333999130788)),
+    Localizacion("Farmacia Gloria",LatLng(-16.538828245112256, -68.08354062485503)),
+    Localizacion("Farmacia JuÃ¡rez",LatLng(-16.505190691346147, -68.12075132945577)),
+    Localizacion("Farmacias Bolivia Obrajes",LatLng(-16.53003930317316, -68.1004140390046)),
+    Localizacion("Todo Oxigeno",LatLng(-16.516427863082022, -68.142772549087)),
+    Localizacion("Oximed",LatLng(-16.503544591705797, -68.13773462332128)),
+    Localizacion("HP Medical SRL",LatLng(-16.51191758051096, -68.12878481503125)),
+    Localizacion("Farmacia Camacho",LatLng(-16.498817578255, -68.13422862991723)),
+    Localizacion("Farmacorp Avaroa",LatLng(-16.51128969182278, -68.12667967056024)),
+    Localizacion("Farmacia MediLucy",LatLng(-16.501249260317607, -68.10531755553932)),
+    Localizacion("Marca Medical",LatLng(-16.504552594230894, -68.12062149248311)),
+    Localizacion("Latin Med Bolivia",LatLng(-16.498876952871754, -68.12096686178442)),
+    Localizacion("Medicat SRL",LatLng(-16.541632100797813, -68.08997172135292)),
+    Localizacion("Disamed SRL",LatLng(-16.510872063400225, -68.12360351166465))
 )
