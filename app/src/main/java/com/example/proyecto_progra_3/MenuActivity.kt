@@ -1,5 +1,6 @@
 package com.example.proyecto_progra_3
 import android.content.Intent
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
@@ -85,7 +86,7 @@ class MenuActivity : AppCompatActivity() {
             startActivity(intent)
         }
         guiasButton.setOnClickListener {
-            val intent = Intent(this, Guias::class.java)
+            val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://www.youtube.com/watch?v=6hLnEUN5UXw"))
             startActivity(intent)
         }
 
