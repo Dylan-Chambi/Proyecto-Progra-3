@@ -1,7 +1,9 @@
 package com.example.proyecto_progra_3
 
+import android.Manifest
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.MenuItem
@@ -25,6 +27,8 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
 import android.net.Uri
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 
 class AmbulanciasActivity : AppCompatActivity() {
 
@@ -138,11 +142,24 @@ class AmbulanciasActivity : AppCompatActivity() {
         override fun onBindViewHolder(holder: OptionsViewHolder, position: Int) {
             holder.bind(list[position])
             holder.itemView.setOnClickListener {
-//                map.animateCamera(CameraUpdateFactory.newLatLngZoom(list[position].latidud, 16f))
-                val i = Intent(Intent.ACTION_CALL)
-                i.data = Uri.parse("tel:${list[position].telefono}")
-                startActivity(i)
-                Toast.makeText(this@AmbulanciasActivity, "nombre: ${list[position].nombre} número: ${list[position].telefono} ", Toast.LENGTH_LONG).show()
+
+//  En este bloque hacemos una llamada directamente sin pasar por el marcador, si lo usamos no
+//  olviemos usar el permiso en el android manifest:
+
+//                if(ContextCompat.checkSelfPermission(this@AmbulanciasActivity, Manifest.permission.CALL_PHONE) == PackageManager.PERMISSION_GRANTED){
+//                    val i = Intent(Intent.ACTION_CALL)
+//                    i.data = Uri.parse("tel:${list[position].telefono}")
+//                    startActivity(i)
+//                    Toast.makeText(this@AmbulanciasActivity, "nombre: ${list[position].nombre} número: ${list[position].telefono} ", Toast.LENGTH_LONG).show()
+//                }else{
+//                    ActivityCompat.requestPermissions(this@AmbulanciasActivity, arrayOf(Manifest.permission.CALL_PHONE), 123)
+//                }
+
+
+//  Este bloque permite hacer la llamada pasando antes por el marcador del telefono
+                val diale = Intent(Intent.ACTION_DIAL)
+                diale.data = Uri.parse("tel:${list[position].telefono}")
+                startActivity(diale)
             }
             holder.buttonSeleccionarCM.setOnClickListener {
                 Toast.makeText(this@AmbulanciasActivity, "nombre: ${list[position].nombre} número: ${list[position].telefono} ", Toast.LENGTH_LONG).show()

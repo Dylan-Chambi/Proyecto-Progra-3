@@ -16,7 +16,7 @@ import com.google.firebase.ktx.Firebase
 class RegisterActivity : AppCompatActivity() {
 
     private lateinit var auth: FirebaseAuth
-    private lateinit var dbFirebase: FirebaseDatabase
+//    private lateinit var dbFirebase: FirebaseDatabase
     private lateinit var bindingRegister: LayoutRegisterScreenBinding
     private lateinit var database: DatabaseReference
 
