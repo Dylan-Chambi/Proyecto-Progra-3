@@ -1,7 +1,7 @@
 package com.example.proyecto_progra_3
 
-class Producto (val nombre:String, var precio: Float, var cantidad: Int){
-    fun cambiarPrecio(nuevoPrecio:Float){
+class Producto (val nombre:String, var precio: Double, var cantidad: Int){
+    fun cambiarPrecio(nuevoPrecio: Double){
         precio = nuevoPrecio
     }
 

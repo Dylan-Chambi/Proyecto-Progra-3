@@ -1,9 +1,7 @@
 package com.example.proyecto_progra_3
 
-import android.Manifest
 import android.content.Context
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.MenuItem
@@ -27,35 +25,24 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
 import android.net.Uri
-import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
+import android.widget.ImageButton
 
 class AmbulanciasActivity : AppCompatActivity() {
 
-    lateinit var recyclerViewAmbulancias: RecyclerView
-    lateinit var map: GoogleMap
+    private lateinit var recyclerViewAmbulancias: RecyclerView
     private lateinit var auth: FirebaseAuth
-    lateinit var fusedLocationProviderClient: FusedLocationProviderClient
-    lateinit var locationRequest: LocationRequest
+    private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
     private lateinit var drawer: DrawerLayout
     private lateinit var toogle: ActionBarDrawerToggle
-    var userLocation: LatLng? = null
-    companion object {
-        const val REQUEST_CODE_LOCATION = 1010
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
-
-//        theme.applyStyle(R.style.AppThemeRed, true)
+        theme.applyStyle(R.style.AppThemeSkyBlue, true)
 
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_ambulancias)
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this)
-        recyclerViewAmbulancias = findViewById(R.id.recyclerViewCM)
-
-
-//        createMapFragment()
+        recyclerViewAmbulancias = findViewById(R.id.recyclerViewP)
 
 
         val toolbar = findViewById<Toolbar>(R.id.toolBarMC)
@@ -74,7 +61,10 @@ class AmbulanciasActivity : AppCompatActivity() {
         navMenu.setNavigationItemSelectedListener {
             when(it.itemId){
                 R.id.medicalCentersButton ->{
+                    val intentMC = Intent(this, CentrosMedicosMapActivity::class.java)
+                    startActivity(intentMC)
                     drawer.closeDrawer(GravityCompat.START)
+                    finish()
                 }
                 R.id.pharmacyButton ->{
                     val intentP = Intent(this, FarmaciasActivity::class.java)
@@ -83,10 +73,7 @@ class AmbulanciasActivity : AppCompatActivity() {
                     finish()
                 }
                 R.id.ambulancesButton ->{
-                    val intentA = Intent(this, AmbulanciasActivity::class.java)
-                    startActivity(intentA)
                     drawer.closeDrawer(GravityCompat.START)
-                    finish()
                 }
                 R.id.guidesButton ->{
                     val intentG = Intent(this, Guias::class.java)
@@ -135,13 +122,17 @@ class AmbulanciasActivity : AppCompatActivity() {
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): OptionsViewHolder {
             val layoutInflater = LayoutInflater.from(context)
-            val itemListView = layoutInflater.inflate(R.layout.layout_centros_medicos_list, parent, false)
+            val itemListView = layoutInflater.inflate(R.layout.layout_ambulance_phone_recycler_view, parent, false)
             return OptionsViewHolder(itemListView)
         }
 
         override fun onBindViewHolder(holder: OptionsViewHolder, position: Int) {
             holder.bind(list[position])
+
             holder.itemView.setOnClickListener {
+                Toast.makeText(this@AmbulanciasActivity, "nombre: ${list[position].nombre} número: ${list[position].telefono} ", Toast.LENGTH_LONG).show()
+            }
+            holder.makeCallButton.setOnClickListener {
 
 //  En este bloque hacemos una llamada directamente sin pasar por el marcador, si lo usamos no
 //  olviemos usar el permiso en el android manifest:
@@ -161,9 +152,6 @@ class AmbulanciasActivity : AppCompatActivity() {
                 diale.data = Uri.parse("tel:${list[position].telefono}")
                 startActivity(diale)
             }
-            holder.buttonSeleccionarCM.setOnClickListener {
-                Toast.makeText(this@AmbulanciasActivity, "nombre: ${list[position].nombre} número: ${list[position].telefono} ", Toast.LENGTH_LONG).show()
-            }
             /* Para llamar a algun elemento en especifico
             holder.imageButton.setOnClickListener {
                 funcionMenuOptionClick?.invoke(list[position])
@@ -180,11 +168,13 @@ class AmbulanciasActivity : AppCompatActivity() {
     }
     class OptionsViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
         // variables en pantalla
-        val nombreAmbulancia: TextView = itemView.findViewById(R.id.nombreCM)
-        val buttonSeleccionarCM: Button = itemView.findViewById(R.id.seleccionarCM)
+        val ambulanceName: TextView = itemView.findViewById(R.id.ambulanceName)
+        val ambulancePhone: TextView = itemView.findViewById(R.id.ambulancePhone)
+        val makeCallButton: ImageButton = itemView.findViewById(R.id.callButton)
         fun bind(ambulancia: Ambulancia) {
             // bindear cada opcion en pantalla para cada elemento de la lista
-            nombreAmbulancia.text = ambulancia.nombre
+            ambulanceName.text = ambulancia.nombre
+            ambulancePhone.text = ambulancia.telefono.toString()
 
         }
     }

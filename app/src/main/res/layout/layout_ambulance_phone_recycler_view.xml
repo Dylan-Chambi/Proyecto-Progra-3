@@ -3,80 +3,83 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:paddingBottom="6dp">
 
     <ImageView
         android:id="@+id/backgroundItem"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="75dp"
         android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="10dp"
         android:background="@drawable/item_centros_medicos_farmacias_shape"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/pharmacyName"
+        app:layout_constraintEnd_toStartOf="@+id/callButton"
         app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintHorizontal_weight="6"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
-        android:id="@+id/pharmacyIcon"
+        android:id="@+id/ambulanceIcon"
         android:layout_width="65dp"
         android:layout_height="63dp"
-        android:padding="9dp"
+        android:padding="12dp"
         app:layout_constraintBottom_toBottomOf="@+id/backgroundItem"
-        app:layout_constraintEnd_toStartOf="@+id/pharmacyName"
-        app:layout_constraintHorizontal_chainStyle="packed"
-        app:layout_constraintStart_toStartOf="@id/backgroundItem"
+        app:layout_constraintStart_toStartOf="@+id/backgroundItem"
         app:layout_constraintTop_toTopOf="@+id/backgroundItem"
-        app:srcCompat="@drawable/farmacias_menu" />
+        app:srcCompat="@drawable/ambulancia" />
 
     <TextView
-        android:id="@+id/pharmacyName"
+        android:id="@+id/ambulanceName"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="4dp"
         android:layout_marginEnd="8dp"
-        android:text="TextView"
+        android:layout_marginBottom="4dp"
         android:textStyle="bold"
-        android:textColor="@color/white"
+        android:text="TextView"
+        android:textColor="#FFFFFF"
         app:autoSizeTextType="uniform"
-        app:layout_constraintBottom_toTopOf="@+id/pharmacyDistance"
-        app:layout_constraintEnd_toStartOf="@+id/selectPharmacy"
-        app:layout_constraintStart_toEndOf="@+id/pharmacyIcon"
+        app:layout_constraintBottom_toTopOf="@+id/ambulancePhone"
+        app:layout_constraintEnd_toEndOf="@+id/backgroundItem"
+        app:layout_constraintStart_toEndOf="@+id/ambulanceIcon"
         app:layout_constraintTop_toTopOf="@+id/backgroundItem"
         app:layout_constraintVertical_chainStyle="packed"
         app:layout_constraintVertical_weight="2" />
 
     <TextView
-        android:id="@+id/pharmacyDistance"
+        android:id="@+id/ambulancePhone"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="4dp"
         android:text="TextView"
-        android:textColor="@color/white"
-        app:autoSizeTextType="uniform"
-        app:layout_constraintBottom_toBottomOf="@+id/backgroundItem"
-        app:layout_constraintEnd_toStartOf="@+id/selectPharmacy"
-        app:layout_constraintStart_toEndOf="@+id/pharmacyIcon"
-        app:layout_constraintTop_toBottomOf="@+id/pharmacyName"
-        app:layout_constraintVertical_weight="1" />
-
-    <Button
-        android:id="@+id/selectPharmacy"
-        android:layout_width="106dp"
-        android:layout_height="46dp"
-        android:layout_marginEnd="8dp"
-        android:padding="12dp"
-        android:background="@drawable/item_button_shape"
-        android:text="select"
         android:textColor="#FFFFFF"
         app:autoSizeTextType="uniform"
-        app:layout_constraintBottom_toBottomOf="@id/backgroundItem"
-        app:layout_constraintEnd_toEndOf="@id/backgroundItem"
-        app:layout_constraintStart_toEndOf="@+id/pharmacyName"
+        app:layout_constraintBottom_toBottomOf="@+id/backgroundItem"
+        app:layout_constraintEnd_toEndOf="@+id/backgroundItem"
+        app:layout_constraintStart_toEndOf="@+id/ambulanceIcon"
+        app:layout_constraintTop_toBottomOf="@+id/ambulanceName"
+        app:layout_constraintVertical_weight="1" />
+
+    <ImageButton
+        android:id="@+id/callButton"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="1dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="1dp"
+        android:background="@drawable/item_button_shape"
+        android:src="@drawable/phone_icon"
+        android:text="Map View"
+        android:textColor="#FFFFFF"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="@+id/backgroundItem"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_weight="1.2"
+        app:layout_constraintStart_toEndOf="@+id/backgroundItem"
         app:layout_constraintTop_toTopOf="@+id/backgroundItem" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

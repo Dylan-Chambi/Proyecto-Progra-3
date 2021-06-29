@@ -46,7 +46,7 @@ class CentrosMedicosMapActivity : AppCompatActivity(), OnMapReadyCallback {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_centros_medicos_map)
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this)
-        recyclerViewCentroMedico = findViewById(R.id.recyclerViewCM)
+        recyclerViewCentroMedico = findViewById(R.id.recyclerViewP)
         createMapFragment()
         val toolbar = findViewById<Toolbar>(R.id.toolBarMC)
         val adapter = CentrosmedicosRecyclerViewAdapter(this, centrosMedicosListNear)
@@ -138,12 +138,12 @@ class CentrosMedicosMapActivity : AppCompatActivity(), OnMapReadyCallback {
         getLastLocation()
         Handler(Looper.getMainLooper()).postDelayed(
             {
-                if(userLocation != null) {
+                if(userLocation != null && checkPermission()) {
                     map.animateCamera(CameraUpdateFactory.newLatLngZoom(userLocation, 16f))
                 }else{
                     showLongMessage(this, "Error getting location.")
                 }
-            }, 2000
+            }, 1000
         )
 
     }
@@ -230,6 +230,7 @@ class CentrosMedicosMapActivity : AppCompatActivity(), OnMapReadyCallback {
         if(requestCode == REQUEST_CODE_LOCATION){
             if(grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED){
                 map.isMyLocationEnabled = true
+                map.animateCamera(CameraUpdateFactory.newLatLngZoom(userLocation, 16f))
             }
         }
     }
@@ -265,7 +266,7 @@ class CentrosMedicosMapActivity : AppCompatActivity(), OnMapReadyCallback {
             holder.itemView.setOnClickListener {
                 map.animateCamera(CameraUpdateFactory.newLatLngZoom(list[position].latidud, 16f))
             }
-            holder.buttonSeleccionarCM.setOnClickListener {
+            holder.selectMedicalCenter.setOnClickListener {
                 Toast.makeText(this@CentrosMedicosMapActivity, "nombre: ${list[position].nombre} latitud: ${list[position].latidud.latitude} longitude: ${list[position].latidud.longitude}", Toast.LENGTH_LONG).show()
             }
             /* Para llamar a algun elemento en especifico
@@ -284,11 +285,11 @@ class CentrosMedicosMapActivity : AppCompatActivity(), OnMapReadyCallback {
 
     class OptionsViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
         // variables en pantalla
-        val nombreCentroMedico: TextView = itemView.findViewById(R.id.nombreCM)
-        val buttonSeleccionarCM: Button = itemView.findViewById(R.id.seleccionarCM)
+        val medicalCenterName: TextView = itemView.findViewById(R.id.medicalCenterName)
+        val selectMedicalCenter: Button = itemView.findViewById(R.id.selectMedicalCenter)
         fun bind(Localizacion: Localizacion) {
             // bindear cada opcion en pantalla para cada elemento de la lista
-            nombreCentroMedico.text = Localizacion.nombre
+            medicalCenterName.text = Localizacion.nombre
 
         }
     }

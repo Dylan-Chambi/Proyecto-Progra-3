@@ -7,15 +7,27 @@
     android:layout_height="match_parent"
     android:background="@color/white"
     android:fitsSystemWindows="true"
-    tools:context=".FarmaciasActivity">
+    tools:context=".AmbulanciasActivity">
+
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".FarmaciasActivity">
+        android:fitsSystemWindows="true"
+        tools:context=".PharmacySearch">
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="#D3F6AA"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/recyclerViewSP"
+            app:layout_constraintTop_toBottomOf="@+id/toolbarPharmacySearch" />
+
 
         <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbarPharmacy"
+            android:id="@+id/toolbarPharmacySearch"
             android:layout_width="0dp"
             android:layout_height="?attr/actionBarSize"
             android:background="@color/green"
@@ -47,59 +59,56 @@
             android:textColor="@color/white"
             android:textSize="34sp"
             app:autoSizeTextType="uniform"
-            app:layout_constraintBottom_toBottomOf="@+id/toolbarPharmacy"
+            app:layout_constraintBottom_toBottomOf="@+id/toolbarPharmacySearch"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/toolbarPharmacy"
+            app:layout_constraintStart_toStartOf="@+id/toolbarPharmacySearch"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <androidx.fragment.app.FragmentContainerView
-            android:id="@+id/mapFarmacia"
-            android:name="com.google.android.gms.maps.SupportMapFragment"
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/searchProduct"
+            style="@style/EditTextStyle"
             android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:background="@drawable/forma_redondeada"
-            app:layout_constraintBottom_toTopOf="@+id/recyclerViewP"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_height="@dimen/edit_text_height"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:ems="10"
+            android:hint="Search Product..."
+            android:inputType="textPersonName"
+            android:paddingStart="15dp"
+            android:paddingEnd="15dp"
+            app:layout_constraintEnd_toStartOf="@+id/searchButtonP"
             app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintHorizontal_chainStyle="packed"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/toolbarPharmacy"
-            app:layout_constraintVertical_chainStyle="packed" />
+            app:layout_constraintTop_toBottomOf="@+id/toolbarPharmacySearch" />
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerViewP"
+            android:id="@+id/recyclerViewSP"
             android:layout_width="0dp"
             android:layout_height="0dp"
+            android:layout_marginTop="8dp"
             android:background="#D3F6AA"
+            android:scrollbarThumbHorizontal="@color/red"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/mapFarmacia" />
+            app:layout_constraintTop_toBottomOf="@+id/searchProduct" />
 
         <ImageButton
-            android:id="@+id/searchActiviy"
+            android:id="@+id/searchButtonP"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_marginTop="4dp"
-            android:layout_marginEnd="4dp"
-            android:layout_marginBottom="6dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
             android:background="@drawable/item_centros_medicos_farmacias_shape"
-            app:layout_constraintBottom_toBottomOf="@+id/toolbarPharmacy"
+            app:layout_constraintBottom_toBottomOf="@+id/searchProduct"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/searchProduct"
+            app:layout_constraintTop_toTopOf="@+id/searchProduct"
+            app:layout_constraintWidth_percent=".13"
             app:srcCompat="@drawable/search_product"
-            app:tint="@color/white"
-            app:layout_constraintDimensionRatio="1:1"/>
+            app:tint="@color/white" />
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <com.google.android.material.navigation.NavigationView
-        android:id="@+id/navigationViewMenu"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_gravity="start"
-        app:headerLayout="@layout/layout_navigation_menu"
-        app:menu="@menu/menu_menu">
-
-    </com.google.android.material.navigation.NavigationView>
-
 </androidx.drawerlayout.widget.DrawerLayout>

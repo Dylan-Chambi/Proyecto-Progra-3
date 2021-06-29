@@ -8,13 +8,13 @@
     <ImageView
         android:id="@+id/backgroundItem"
         android:layout_width="match_parent"
-        android:layout_height="63dp"
+        android:layout_height="75dp"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="10dp"
-        android:background="@drawable/item_centros_medicos_farmacias_shape"
+        android:background="@drawable/medical_center_shape"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/nombreCM"
+        app:layout_constraintEnd_toStartOf="@+id/medicalCenterName"
         app:layout_constraintHorizontal_chainStyle="packed"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -25,38 +25,60 @@
         android:layout_height="63dp"
         android:padding="12dp"
         app:layout_constraintBottom_toBottomOf="@+id/backgroundItem"
-        app:layout_constraintEnd_toStartOf="@+id/nombreCM"
+        app:layout_constraintEnd_toStartOf="@+id/medicalCenterName"
         app:layout_constraintHorizontal_chainStyle="packed"
         app:layout_constraintStart_toStartOf="@id/backgroundItem"
         app:layout_constraintTop_toTopOf="@+id/backgroundItem"
         app:srcCompat="@drawable/cruz_roja" />
 
+
     <TextView
-        android:id="@+id/nombreCM"
+        android:id="@+id/medicalCenterName"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:text="TextView"
+        android:textStyle="bold"
+        android:textColor="@color/black"
+        app:autoSizeTextType="uniform"
+        app:layout_constraintBottom_toTopOf="@+id/medicalCenterDistance"
+        app:layout_constraintEnd_toStartOf="@+id/selectMedicalCenter"
+        app:layout_constraintStart_toEndOf="@+id/imageCruzRoja"
+        app:layout_constraintTop_toTopOf="@+id/backgroundItem"
+        app:layout_constraintVertical_chainStyle="packed"
+        app:layout_constraintVertical_weight="2" />
+
+    <TextView
+        android:id="@+id/medicalCenterDistance"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
+        android:layout_marginBottom="4dp"
         android:text="TextView"
-        android:textColor="#FFFFFF"
+        android:textColor="@color/black"
         app:autoSizeTextType="uniform"
         app:layout_constraintBottom_toBottomOf="@+id/backgroundItem"
-        app:layout_constraintEnd_toStartOf="@+id/seleccionarCM"
-        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintEnd_toStartOf="@+id/selectMedicalCenter"
         app:layout_constraintStart_toEndOf="@+id/imageCruzRoja"
-        app:layout_constraintTop_toTopOf="@+id/backgroundItem" />
+        app:layout_constraintTop_toBottomOf="@+id/medicalCenterName"
+        app:layout_constraintVertical_weight="1" />
+
 
     <Button
-        android:id="@+id/seleccionarCM"
+        android:id="@+id/selectMedicalCenter"
         android:layout_width="106dp"
         android:layout_height="46dp"
         android:layout_marginEnd="8dp"
         android:background="@drawable/item_button_shape"
-        android:text="@string/seleccionar"
+        android:text="select"
         android:textColor="#FFFFFF"
-        android:textSize="12sp"
+        android:padding="12dp"
+        app:autoSizeTextType="uniform"
         app:layout_constraintBottom_toBottomOf="@id/backgroundItem"
         app:layout_constraintEnd_toEndOf="@id/backgroundItem"
-        app:layout_constraintStart_toEndOf="@+id/nombreCM"
+        app:layout_constraintStart_toEndOf="@+id/medicalCenterName"
         app:layout_constraintTop_toTopOf="@+id/backgroundItem" />
 </androidx.constraintlayout.widget.ConstraintLayout>

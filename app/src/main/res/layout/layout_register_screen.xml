@@ -47,7 +47,7 @@
     <androidx.appcompat.widget.AppCompatEditText
         android:id="@+id/textoContrasenia"
         style="@style/EditTextStyle"
-        android:layout_width="0dp"
+        android:layout_width="@dimen/edit_text_width"
         android:layout_height="@dimen/edit_text_height"
         android:ems="10"
         android:hint=" Contraseña: "
@@ -61,11 +61,11 @@
     <androidx.appcompat.widget.AppCompatEditText
         android:id="@+id/numeroDeTelefono"
         style="@style/EditTextStyle"
-        android:layout_width="0dp"
+        android:layout_width="@dimen/edit_text_width"
         android:layout_height="@dimen/edit_text_height"
         android:ems="10"
         android:hint=" Numero De Telefono: "
-        android:inputType="textPassword"
+        android:inputType="textPhonetic"
         app:layout_constraintWidth_percent=".9"
         app:layout_constraintBottom_toTopOf="@+id/textoContrasenia"
         app:layout_constraintEnd_toEndOf="parent"
@@ -75,7 +75,7 @@
     <androidx.appcompat.widget.AppCompatEditText
         android:id="@+id/textoNombreDeUsuario"
         style="@style/EditTextStyle"
-        android:layout_width="0dp"
+        android:layout_width="@dimen/edit_text_width"
         android:layout_height="@dimen/edit_text_height"
         android:ems="10"
         android:hint=" Nombre y Apellido: "
@@ -89,16 +89,17 @@
     <androidx.appcompat.widget.AppCompatEditText
         android:id="@+id/correoUsuario"
         style="@style/EditTextStyle"
-        android:layout_width="0dp"
+        android:layout_width="@dimen/edit_text_width"
         android:layout_height="@dimen/edit_text_height"
         android:ems="10"
         android:hint=" ejemplo@gmail.com "
         android:inputType="textPersonName"
-        app:layout_constraintWidth_percent=".9"
         app:layout_constraintBottom_toTopOf="@+id/textoNombreDeUsuario"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.512"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/arrow" />
+        app:layout_constraintTop_toBottomOf="@+id/arrow"
+        app:layout_constraintWidth_percent=".9" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/registerButton"

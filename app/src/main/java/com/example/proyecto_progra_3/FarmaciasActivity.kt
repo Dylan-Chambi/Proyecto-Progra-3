@@ -35,7 +35,9 @@ class FarmaciasActivity : AppCompatActivity(), OnMapReadyCallback {
     lateinit var locationRequest: LocationRequest
     private lateinit var drawer: DrawerLayout
     private lateinit var toogle: ActionBarDrawerToggle
+    private lateinit var searchActivity: ImageButton
     var userLocation: LatLng? = null
+
     companion object {
         const val REQUEST_CODE_LOCATION = 1010
     }
@@ -45,15 +47,15 @@ class FarmaciasActivity : AppCompatActivity(), OnMapReadyCallback {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_farmacias)
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this)
-        recyclerViewFarmacia = findViewById(R.id.recyclerViewCM)
+        recyclerViewFarmacia = findViewById(R.id.recyclerViewP)
         createMapFragment()
         val toolbar = findViewById<Toolbar>(R.id.toolbarPharmacy)
         val adapter = FarmaciasRecyclerViewAdapter(this, farmaciasListNear)
         val layoutManager = LinearLayoutManager(this)
         val navMenu = findViewById<NavigationView>(R.id.navigationViewMenu)
+        searchActivity = findViewById(R.id.searchActiviy)
         recyclerViewFarmacia.adapter = adapter
         recyclerViewFarmacia.layoutManager = layoutManager
-
 
         drawer = findViewById(R.id.drawerLayoutMenu)
 
@@ -97,6 +99,10 @@ class FarmaciasActivity : AppCompatActivity(), OnMapReadyCallback {
             }
             true
         }
+        searchActivity.setOnClickListener {
+            val intent = Intent(this, PharmacySearch::class.java)
+            startActivity(intent)
+        }
     }
     private fun logOut(){
         auth.signOut()
@@ -139,12 +145,12 @@ class FarmaciasActivity : AppCompatActivity(), OnMapReadyCallback {
         getLastLocation()
         Handler(Looper.getMainLooper()).postDelayed(
             {
-                if(userLocation != null) {
+                if(userLocation != null && checkPermission()) {
                     map.animateCamera(CameraUpdateFactory.newLatLngZoom(userLocation, 16f))
                 }else{
                     showLongMessage(this, "Error getting location.")
                 }
-            }, 2000
+            }, 1000
         )
 
     }
@@ -231,6 +237,7 @@ class FarmaciasActivity : AppCompatActivity(), OnMapReadyCallback {
         if(requestCode == REQUEST_CODE_LOCATION){
             if(grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED){
                 map.isMyLocationEnabled = true
+                map.animateCamera(CameraUpdateFactory.newLatLngZoom(userLocation, 16f))
             }
         }
     }
@@ -248,7 +255,7 @@ class FarmaciasActivity : AppCompatActivity(), OnMapReadyCallback {
             Handler(Looper.getMainLooper()).postDelayed(
                 {
                     map.animateCamera(CameraUpdateFactory.newLatLngZoom(userLocation, 16f))
-                }, 100
+                }, 1000
             )
         }
     }
@@ -285,8 +292,8 @@ class FarmaciasActivity : AppCompatActivity(), OnMapReadyCallback {
 
     class OptionsViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
         // variables en pantalla
-        val nombreFarmacia: TextView = itemView.findViewById(R.id.nombreCM)
-        val buttonSeleccionarCM: Button = itemView.findViewById(R.id.seleccionarCM)
+        val nombreFarmacia: TextView = itemView.findViewById(R.id.pharmacyName)
+        val buttonSeleccionarCM: Button = itemView.findViewById(R.id.selectPharmacy)
         fun bind(Localizacion: Localizacion) {
             // bindear cada opcion en pantalla para cada elemento de la lista
             nombreFarmacia.text = Localizacion.nombre

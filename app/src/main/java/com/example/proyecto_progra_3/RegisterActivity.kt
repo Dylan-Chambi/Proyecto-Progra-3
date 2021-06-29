@@ -55,13 +55,13 @@ class RegisterActivity : AppCompatActivity() {
             if (task.isSuccessful) {
                 database = FirebaseDatabase.getInstance().getReference("Users")
                 val user = User(userName, userEmail, userPhone, userPassword)
-                database.child(userName).setValue(user).addOnSuccessListener {
+                database.child(auth.uid!!).setValue(user).addOnSuccessListener {
                     showShortMessage(baseContext,"Register success.")
                 }.addOnFailureListener{
                     showLongMessage(this, "Your account was created but: "+it.message!!)
                 }
                 Log.d(TAG, "createUserWithEmail:success")
-                val userAuth = auth.currentUser
+                auth.signOut()
                 val intent = Intent(this, LoginScreen::class.java)
                 startActivity(intent)
                 finish()
