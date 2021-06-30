@@ -21,6 +21,7 @@ import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.proyecto_progra_3.googleMapsPlacesResponse.PlacesResults
 import com.example.proyecto_progra_3.googleMapsPlacesResponse.Result
 import com.google.android.gms.location.*
@@ -105,13 +106,13 @@ class FarmaciasActivity : AppCompatActivity(), OnMapReadyCallback {
                     finish()
                 }
                 R.id.settingsButton -> {
-                    showLongMessage(this, "Click on Settings")
+                    showLongMessage(this, "Click en Ajustes.")
                     /*
                     val intentMC = Intent(this, CentrosMedicosMapActivity::class.java)
                     startActivity(intentMC)
                      */
                 }
-                R.id.profileButton -> showLongMessage(this, "Click on Profile")
+                R.id.profileButton -> showLongMessage(this, "Click en Perfil.")
                 R.id.logOutButton -> {
                     alertDialogMenu = AlertDialog.Builder(this).apply {
                         setTitle("Cerrando Sesion...")
@@ -147,7 +148,7 @@ class FarmaciasActivity : AppCompatActivity(), OnMapReadyCallback {
         val currentLocation = location.latitude.toString() + "," + location.longitude
         val type = "pharmacy"
         val googleMapAPI =
-            APIClient.getClientMedicalCenters()?.getNearBy(currentLocation, 150000, type, "", key)
+            APIClient.getClientMedicalCenters()?.getNearBy(currentLocation, "distance", 150000, type, "", key)
                 ?.enqueue(object : Callback<PlacesResults> {
                     override fun onResponse(call: Call<PlacesResults>, response: Response<PlacesResults>) {
 
@@ -167,7 +168,7 @@ class FarmaciasActivity : AppCompatActivity(), OnMapReadyCallback {
                                 map.addMarker(MarkerOptions().position(it.geometry!!.location!!.getLatLng()))
                             }
                         }else{
-                            showLongMessage(this@FarmaciasActivity, "No medical centers were found nearby")
+                            showLongMessage(this@FarmaciasActivity, "No se encontraron Farmacias cerca...")
                         }
                         alertDialog.dismiss()
                     }
@@ -181,7 +182,7 @@ class FarmaciasActivity : AppCompatActivity(), OnMapReadyCallback {
         auth.signOut()
         val intent = Intent(this, MainActivity::class.java)
         startActivity(intent)
-        showLongMessage(this, "Log Out successfully")
+        showLongMessage(this, "Se cerro la sesion correctamente.")
         finish()
     }
     //para que el boton funcione
@@ -235,12 +236,12 @@ class FarmaciasActivity : AppCompatActivity(), OnMapReadyCallback {
                                 )
                             )
                         } else {
-                            showLongMessage(this, "Error getting location.")
+                            showLongMessage(this, "Error al obtener las localicaciones.")
                         }
                     }, 1000
                 )
             }catch (error: NullPointerException){
-                showLongMessage(this, "Error getting location.")
+                showLongMessage(this, "Error al obtener las localicaciones.")
             }
         }
 
@@ -269,7 +270,7 @@ class FarmaciasActivity : AppCompatActivity(), OnMapReadyCallback {
                     }
                 }
             }else{
-                Toast.makeText(this,"Please Turn on Your device Location",Toast.LENGTH_SHORT).show()
+                Toast.makeText(this,"La localizacion esta desactivada!!!",Toast.LENGTH_SHORT).show()
             }
         }else{
             requestPermissionLocation()
@@ -306,7 +307,7 @@ class FarmaciasActivity : AppCompatActivity(), OnMapReadyCallback {
     private fun requestPermissionLocation(){
         if(ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.ACCESS_FINE_LOCATION) ||
             ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.ACCESS_COARSE_LOCATION)){
-            Toast.makeText(this, "active permissions on settings", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "Activa los permisos en ajustes.", Toast.LENGTH_SHORT).show()
         }else{
             ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION),
                 REQUEST_CODE_LOCATION)
@@ -341,12 +342,19 @@ class FarmaciasActivity : AppCompatActivity(), OnMapReadyCallback {
         if(!::map.isInitialized)return
         if(!checkPermission()){
             map.isMyLocationEnabled = false
-            Toast.makeText(this, "active permissions on settings to do something", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "Activa los permisos en ajustes.", Toast.LENGTH_SHORT).show()
         }else{
             enableLocation()
             getLastLocation()
+            alertDialog = AlertDialog.Builder(this).apply {
+                setTitle("Cargando")
+                setMessage("Obteniendo datos de la nube...")
+                setCancelable(false)
+            }.create()
+            alertDialog.show()
             Handler(Looper.getMainLooper()).postDelayed(
                 {
+                    onLocationChanged(userLocation!!)
                     map.animateCamera(CameraUpdateFactory.newLatLngZoom(userLocation, 16f))
                 }, 1000
             )
@@ -357,12 +365,12 @@ class FarmaciasActivity : AppCompatActivity(), OnMapReadyCallback {
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): OptionsViewHolder {
             val layoutInflater = LayoutInflater.from(context)
-            val itemListView = layoutInflater.inflate(R.layout.layout_farmacias_list, parent, false)
+            val itemListView = layoutInflater.inflate(R.layout.layout_pharmacy_list_recycler_view, parent, false)
             return OptionsViewHolder(itemListView)
         }
 
         override fun onBindViewHolder(holder: OptionsViewHolder, position: Int) {
-            holder.bind(list[position])
+            holder.bind(context, list[position])
             holder.itemView.setOnClickListener {
                 map.animateCamera(CameraUpdateFactory.newLatLngZoom(list[position].geometry!!.location!!.getLatLng(), 16f))
             }
@@ -385,12 +393,15 @@ class FarmaciasActivity : AppCompatActivity(), OnMapReadyCallback {
 
     class OptionsViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
         // variables en pantalla
-        val nombreFarmacia: TextView = itemView.findViewById(R.id.nombre)
-        val buttonSeleccionarCM: Button = itemView.findViewById(R.id.selectPharmacy)
-        fun bind(result: Result) {
+        val nombre: TextView = itemView.findViewById(R.id.productName)
+        val direcion: TextView = itemView.findViewById(R.id.pharmacyCount)
+        val buttonSeleccionarCM: Button = itemView.findViewById(R.id.productMapView)
+        fun bind(context :Context,result: Result) {
             // bindear cada opcion en pantalla para cada elemento de la lista
-            nombreFarmacia.text = result.name
-
+            nombre.text = result.name
+            if(result.vicinity != null) {
+                direcion.text = result.vicinity
+            }
         }
     }
 }

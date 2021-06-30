@@ -21,6 +21,7 @@ class RegisterActivity : AppCompatActivity() {
     private lateinit var database: DatabaseReference
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        theme.applyStyle(R.style.AppTheme, true)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.layout_register_screen)
         auth = Firebase.auth
@@ -39,12 +40,12 @@ class RegisterActivity : AppCompatActivity() {
                 register(userEmail, userPassword,userName, userPhone)
             }else{
                 when {
-                    userPassword.isEmpty() -> showLongMessage(this, "The password cannot be empty.")
-                    userPassword != userPasswordR -> showLongMessage(this, "Your passwords do not match.")
-                    userPassword.length < 6 -> showLongMessage(this, "Your password must be at least 6 characters.")
-                    userEmail.isEmpty() -> showLongMessage(this, "Your email address cannot be empty")
-                    userName.length < 5 -> showLongMessage(this, "Your username must be at least 5 characters.")
-                    else -> showLongMessage(this, "Unknown error")
+                    userPassword.isEmpty() -> showLongMessage(this, "La contraseña no puede estar vacia!!")
+                    userPassword != userPasswordR -> showLongMessage(this, "Las contraseñas no coinciden!!")
+                    userPassword.length < 6 -> showLongMessage(this, "La contraseña debe tener almenos 6 caracteres!!")
+                    userEmail.isEmpty() -> showLongMessage(this, "Tu correo electronico no puede estar vacio!!")
+                    userName.length < 5 -> showLongMessage(this, "Tu nombre de usuario debe tener al menos 5 caracteres!!")
+                    else -> showLongMessage(this, "Error desconocido!! D:")
                 }
             }
         }
@@ -56,9 +57,9 @@ class RegisterActivity : AppCompatActivity() {
                 database = FirebaseDatabase.getInstance().getReference("Users")
                 val user = User(userName, userEmail, userPhone, userPassword)
                 database.child(auth.uid!!).setValue(user).addOnSuccessListener {
-                    showShortMessage(baseContext,"Register success.")
+                    showShortMessage(baseContext,"Registro exitoso")
                 }.addOnFailureListener{
-                    showLongMessage(this, "Your account was created but: "+it.message!!)
+                    showLongMessage(this, "Tu cuenta fue creada pero: "+it.message!!)
                 }
                 Log.d(TAG, "createUserWithEmail:success")
                 auth.signOut()

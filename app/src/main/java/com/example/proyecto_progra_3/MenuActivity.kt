@@ -26,9 +26,9 @@ class MenuActivity : AppCompatActivity() {
     private lateinit var databaseReference: DatabaseReference
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        theme.applyStyle(R.style.AppTheme, true)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_menu)
-
         bindingMenu = ActivityMenuBinding.inflate(layoutInflater)
         setContentView(bindingMenu.root)
         auth = FirebaseAuth.getInstance()
@@ -72,13 +72,13 @@ class MenuActivity : AppCompatActivity() {
                     drawer.closeDrawer(GravityCompat.START)
                 }
                 R.id.settingsButton ->{
-                    showLongMessage(this,"Click on Settings")
+                    showLongMessage(this,"Click en Ajustes")
                     /*
                     val intentMC = Intent(this, CentrosMedicosMapActivity::class.java)
                     startActivity(intentMC)
                      */
                 }
-                R.id.profileButton -> showLongMessage(this,"Click on Profile")
+                R.id.profileButton -> showLongMessage(this,"Click en Perfil")
                 R.id.logOutButton -> {
                     alertDialogMenu = AlertDialog.Builder(this).apply {
                         setTitle("Cerrando Sesion...")

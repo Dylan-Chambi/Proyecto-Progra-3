@@ -50,6 +50,7 @@ interface  GoogleMapsAPI{
     @GET("place/nearbysearch/json")
     fun getNearBy(
         @Query("location") location: String,
+        @Query("rankBy") rankBy: String,
         @Query("radius") radius: Int,
         @Query("type") type: String,
         @Query("keyword") keyword: String,

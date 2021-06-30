@@ -32,6 +32,7 @@ import retrofit2.Response
 
 
 class Guias : AppCompatActivity() {
+
     private lateinit var auth: FirebaseAuth
     private lateinit var drawer: DrawerLayout
     private lateinit var toogle: ActionBarDrawerToggle
@@ -40,8 +41,6 @@ class Guias : AppCompatActivity() {
     private lateinit var alertDialog: AlertDialog
     private lateinit var databaseReference: DatabaseReference
     private lateinit var database: FirebaseDatabase
-
-
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -93,13 +92,13 @@ class Guias : AppCompatActivity() {
                     drawer.closeDrawer(GravityCompat.START)
                 }
                 R.id.settingsButton ->{
-                    showLongMessage(this,"Click on Settings")
+                    showLongMessage(this,"Click en Ajustes")
                     /*
                     val intentMC = Intent(this, CentrosMedicosMapActivity::class.java)
                     startActivity(intentMC)
                      */
                 }
-                R.id.profileButton -> showLongMessage(this,"Click on Profile")
+                R.id.profileButton -> showLongMessage(this,"Click en Perfil")
                 R.id.logOutButton -> {
                     alertDialogMenu = AlertDialog.Builder(this).apply {
                         setTitle("Cerrando Sesion...")
@@ -138,13 +137,13 @@ class Guias : AppCompatActivity() {
                     recyclerViewGuias.adapter = adapter
                     recyclerViewGuias.layoutManager = layoutManager
                 }else{
-                    showLongMessage(this@Guias, "No se encontraron videos")
+                    showLongMessage(this@Guias, "No se encontraron videos!!")
                 }
                 alertDialog.dismiss()
             }
 
             override fun onFailure(call: Call<Example>, t: Throwable) {
-                Toast.makeText(this@Guias, "ERROR!", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this@Guias, "Error al cargar los videos...", Toast.LENGTH_SHORT).show()
                 alertDialog.dismiss()
             }
 
@@ -155,7 +154,7 @@ class Guias : AppCompatActivity() {
         auth.signOut()
         val intent = Intent(this, MainActivity::class.java)
         startActivity(intent)
-        showLongMessage(this, "Salio de su cuenta satisfactoriamente")
+        showLongMessage(this, "Se cerro la sesion correctamente.")
         finish()
     }
     //para que el boton funcione
@@ -185,8 +184,17 @@ class Guias : AppCompatActivity() {
         override fun onBindViewHolder(holder: OptionsViewHolder, position: Int) {
             holder.bind(context, list[position])
             holder.backgroundItem.setOnClickListener {
-                val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://www.youtube.com/watch?v=" + list[position].id.videoId))
-                startActivity(intent)
+                alertDialogMenu = AlertDialog.Builder(this@Guias).apply {
+                    setTitle("Espera!!")
+                    setMessage("¿Le gustaria ir a Youtube para ver el video?")
+                    setPositiveButton("SI") { _, _ ->
+                        val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://www.youtube.com/watch?v=" + list[position].id.videoId))
+                        startActivity(intent)
+                    }
+                    setCancelable(false)
+                    setNegativeButton("NO") { _, _ -> }
+                }.create()
+                alertDialogMenu.show()
             }
 //        }
         }

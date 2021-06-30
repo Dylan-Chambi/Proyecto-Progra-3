@@ -31,6 +31,8 @@ import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
+import okhttp3.OkHttpClient
+import okhttp3.Request
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -47,7 +49,6 @@ class CentrosMedicosMapActivity : AppCompatActivity(), OnMapReadyCallback {
     private lateinit var alertDialogMenu: AlertDialog
     private lateinit var drawer: DrawerLayout
     private lateinit var toogle: ActionBarDrawerToggle
-    private lateinit var googleMapAPI: GoogleMapsAPI
     private lateinit var databaseReference: DatabaseReference
     private lateinit var database: FirebaseDatabase
 
@@ -107,13 +108,13 @@ class CentrosMedicosMapActivity : AppCompatActivity(), OnMapReadyCallback {
                     finish()
                 }
                 R.id.settingsButton -> {
-                    showLongMessage(this, "Click on Settings")
+                    showLongMessage(this, "Click en Ajustes")
                     /*
                     val intentMC = Intent(this, CentrosMedicosMapActivity::class.java)
                     startActivity(intentMC)
                      */
                 }
-                R.id.profileButton -> showLongMessage(this, "Click on Profile")
+                R.id.profileButton -> showLongMessage(this, "Click en Perfil")
                 R.id.logOutButton -> {
                     alertDialogMenu = AlertDialog.Builder(this).apply {
                         setTitle("Cerrando Sesion...")
@@ -144,7 +145,7 @@ class CentrosMedicosMapActivity : AppCompatActivity(), OnMapReadyCallback {
         val currentLocation = location.latitude.toString() + "," + location.longitude
         val type = "hospital"
         val googleMapAPI =
-            APIClient.getClientMedicalCenters()?.getNearBy(currentLocation, 150000, type, "", key)
+            APIClient.getClientMedicalCenters()?.getNearBy(currentLocation,"distance", 150000, type, "", key)
                 ?.enqueue(object : Callback<PlacesResults> {
                     override fun onResponse(
                         call: Call<PlacesResults>,
@@ -166,7 +167,7 @@ class CentrosMedicosMapActivity : AppCompatActivity(), OnMapReadyCallback {
                         } else {
                             showLongMessage(
                                 this@CentrosMedicosMapActivity,
-                                "No medical centers were found nearby"
+                                "No se encontraron Centros Medicos cerca..."
                             )
                         }
                         alertDialog.dismiss()
@@ -183,7 +184,7 @@ class CentrosMedicosMapActivity : AppCompatActivity(), OnMapReadyCallback {
         auth.signOut()
         val intent = Intent(this, MainActivity::class.java)
         startActivity(intent)
-        showLongMessage(this, "Salio de su cuenta satisfactoriamente")
+        showLongMessage(this, "Se cerro la sesion correctamente.")
         finish()
     }
 
@@ -240,12 +241,12 @@ class CentrosMedicosMapActivity : AppCompatActivity(), OnMapReadyCallback {
                                 )
                             )
                         } else {
-                            showLongMessage(this, "Error getting location.")
+                            showLongMessage(this, "Error al obtener las localicaciones.")
                         }
                     }, 1000
                 )
             } catch (e: NullPointerException) {
-                showLongMessage(this, "Error getting location.")
+                showLongMessage(this, "Error al obtener las localicaciones.")
             }
         }
 
@@ -274,7 +275,7 @@ class CentrosMedicosMapActivity : AppCompatActivity(), OnMapReadyCallback {
                     }
                 }
             } else {
-                Toast.makeText(this, "Please Turn on Your device Location", Toast.LENGTH_SHORT)
+                Toast.makeText(this, "La localizacion esta desactivada!!!", Toast.LENGTH_SHORT)
                     .show()
             }
         } else {
@@ -325,7 +326,7 @@ class CentrosMedicosMapActivity : AppCompatActivity(), OnMapReadyCallback {
                 Manifest.permission.ACCESS_COARSE_LOCATION
             )
         ) {
-            Toast.makeText(this, "active permissions on settings", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "Activa los permisos en ajustes.", Toast.LENGTH_SHORT).show()
         } else {
             ActivityCompat.requestPermissions(
                 this,
@@ -370,16 +371,23 @@ class CentrosMedicosMapActivity : AppCompatActivity(), OnMapReadyCallback {
             map.isMyLocationEnabled = false
             Toast.makeText(
                 this,
-                "active permissions on settings to do something",
+                "Activa los permisos en ajustes.",
                 Toast.LENGTH_SHORT
             ).show()
         } else {
             enableLocation()
             getLastLocation()
+            alertDialog = AlertDialog.Builder(this).apply {
+                setTitle("Cargando")
+                setMessage("Obteniendo datos de la nube...")
+                setCancelable(false)
+            }.create()
+            alertDialog.show()
             Handler(Looper.getMainLooper()).postDelayed(
                 {
+                    onLocationChanged(userLocation!!)
                     map.animateCamera(CameraUpdateFactory.newLatLngZoom(userLocation, 16f))
-                }, 100
+                }, 1000
             )
         }
     }
@@ -428,10 +436,13 @@ class CentrosMedicosMapActivity : AppCompatActivity(), OnMapReadyCallback {
         // variables en pantalla
         val medicalCenterName: TextView = itemView.findViewById(R.id.medicalCenterName)
         val selectMedicalCenter: Button = itemView.findViewById(R.id.selectMedicalCenter)
+        val direcion: TextView = itemView.findViewById(R.id.medicalCenterDistance)
         fun bind(result: Result) {
             // bindear cada opcion en pantalla para cada elemento de la lista
             medicalCenterName.text = result.name
-
+            if(result.vicinity != null) {
+                direcion.text = result.vicinity
+            }
         }
     }
 }

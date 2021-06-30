@@ -1,3 +1,5 @@
 package com.example.proyecto_progra_3
 
-data class Ambulancia(val nombre: String, val telefono: Int)
+class Ambulancia(val name: String? = null, val phone: Int? = null){
+
+}

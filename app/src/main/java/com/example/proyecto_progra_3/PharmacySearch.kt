@@ -48,6 +48,7 @@ class PharmacySearch : AppCompatActivity() {
             supportActionBar!!.title = ""
         }
     }
+
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         // handle arrow click here
         if (item.itemId === android.R.id.home) {
@@ -111,17 +112,17 @@ class PharmacySearch : AppCompatActivity() {
 val products = listOf("Vitamin C pills", "Sunscreen")
 
 val productList = listOf(
-    Producto("Vitamin C pills", 45.50, 6),
-    Producto("Vitamin C pills", 45.50, 6),
-    Producto("Vitamin C pills", 45.50, 6),
-    Producto("Vitamin C pills", 45.50, 6),
-    Producto("Vitamin C pills", 45.50, 6),
-    Producto("Vitamin C pills", 45.50, 6),
-    Producto("Vitamin C pills", 45.50, 6),
-    Producto("Vitamin C pills", 45.50, 6),
-    Producto("Vitamin C pills", 45.50, 6),
-    Producto("Vitamin C pills", 45.50, 6),
-    Producto("Sunscreen", 45.50, 6)
+    Producto("Vitamin C pills", 6),
+    Producto("Vitamin C pills", 6),
+    Producto("Vitamin C pills", 6),
+    Producto("Vitamin C pills", 6),
+    Producto("Vitamin C pills", 6),
+    Producto("Vitamin C pills", 6),
+    Producto("Vitamin C pills", 6),
+    Producto("Vitamin C pills", 6),
+    Producto("Vitamin C pills", 6),
+    Producto("Vitamin C pills", 6),
+    Producto("Sunscreen", 6)
 )
 
 val pharmacyList = listOf(
@@ -136,5 +137,6 @@ val pharmacyList = listOf(
     Pharmacy("Farmacia Bolivia", LatLng(-16.504024200101696, -68.13402742379976), productList),
     Pharmacy("Farmacia Bolivia", LatLng(-16.504024200101696, -68.13402742379976), productList),
     Pharmacy("Farmacia Bolivia", LatLng(-16.504024200101696, -68.13402742379976), productList),
-
 )
+
+data class Pharmacy(val nombre: String, val latLng: LatLng, val productList: List<Producto>)

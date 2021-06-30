@@ -7,7 +7,6 @@ import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
@@ -18,17 +17,13 @@ import androidx.drawerlayout.widget.DrawerLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.gms.location.FusedLocationProviderClient
-import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationServices
-import com.google.android.gms.maps.GoogleMap
-import com.google.android.gms.maps.model.LatLng
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
 import android.net.Uri
 import android.widget.ImageButton
 import androidx.appcompat.app.AlertDialog
-import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.*
 
 class AmbulanciasActivity : AppCompatActivity() {
 
@@ -52,15 +47,12 @@ class AmbulanciasActivity : AppCompatActivity() {
 
 
         val toolbar = findViewById<Toolbar>(R.id.toolBarMC)
-        val adapter = AmbulanciasRecyclerViewAdapter(this, ambulanciasListNear)
-        val layoutManager = LinearLayoutManager(this)
         val navMenu = findViewById<NavigationView>(R.id.navigationViewMenu)
-        recyclerViewAmbulancias.adapter = adapter
-        recyclerViewAmbulancias.layoutManager = layoutManager
         auth = FirebaseAuth.getInstance()
         database = FirebaseDatabase.getInstance()
         databaseReference = database.reference.child("Users")
         getDatabaseData()
+        getAmbulancesData()
 
         drawer = findViewById(R.id.drawerLayoutMenu)
         toogle = ActionBarDrawerToggle(this, drawer, toolbar,R.string.open, R.string.close)
@@ -124,6 +116,25 @@ class AmbulanciasActivity : AppCompatActivity() {
             findViewById<TextView>(R.id.userEmailFirebase).text = it.child("userEmail").value.toString()
         }
     }
+    private fun getAmbulancesData(){
+        var listAmbulances = mutableListOf<Ambulancia>()
+        databaseReference = FirebaseDatabase.getInstance().reference.child("Ambulance")
+        databaseReference.addValueEventListener(object: ValueEventListener{
+            override fun onDataChange(snapshot: DataSnapshot) {
+                if(snapshot.exists()){
+                    for(ambulance in snapshot.children){
+                        val ambulance0 = Ambulancia(ambulance.getValue(Ambulancia::class.java)!!.name.toString(), ambulance.getValue(Ambulancia::class.java)!!.phone!!.toInt())
+                        listAmbulances.add(ambulance0)
+                    }
+                    val adapter = AmbulanciasRecyclerViewAdapter(this@AmbulanciasActivity, listAmbulances)
+                    val layoutManager = LinearLayoutManager(this@AmbulanciasActivity)
+                    recyclerViewAmbulancias.adapter = adapter
+                    recyclerViewAmbulancias.layoutManager = layoutManager
+                }
+            }
+            override fun onCancelled(error: DatabaseError) {}
+        })
+    }
 
     private fun logOut() {
         auth.signOut()
@@ -140,13 +151,6 @@ class AmbulanciasActivity : AppCompatActivity() {
         return super.onOptionsItemSelected(item)
     }
 
-//    override fun onBackPressed() {
-//        if(drawer.isDrawerOpen(GravityCompat.START)){
-//            drawer.closeDrawer(GravityCompat.START)
-//        }else {
-//            super.onBackPressed()
-//        }
-//    }
 
     inner class AmbulanciasRecyclerViewAdapter(val context: Context, private val list: List<Ambulancia>): RecyclerView.Adapter<OptionsViewHolder>() {
 
@@ -160,26 +164,12 @@ class AmbulanciasActivity : AppCompatActivity() {
             holder.bind(list[position])
 
             holder.itemView.setOnClickListener {
-                Toast.makeText(this@AmbulanciasActivity, "nombre: ${list[position].nombre} número: ${list[position].telefono} ", Toast.LENGTH_LONG).show()
+                Toast.makeText(this@AmbulanciasActivity, "nombre: ${list[position].name} número: ${list[position].phone} ", Toast.LENGTH_LONG).show()
             }
             holder.makeCallButton.setOnClickListener {
 
-//  En este bloque hacemos una llamada directamente sin pasar por el marcador, si lo usamos no
-//  olviemos usar el permiso en el android manifest:
-
-//                if(ContextCompat.checkSelfPermission(this@AmbulanciasActivity, Manifest.permission.CALL_PHONE) == PackageManager.PERMISSION_GRANTED){
-//                    val i = Intent(Intent.ACTION_CALL)
-//                    i.data = Uri.parse("tel:${list[position].telefono}")
-//                    startActivity(i)
-//                    Toast.makeText(this@AmbulanciasActivity, "nombre: ${list[position].nombre} número: ${list[position].telefono} ", Toast.LENGTH_LONG).show()
-//                }else{
-//                    ActivityCompat.requestPermissions(this@AmbulanciasActivity, arrayOf(Manifest.permission.CALL_PHONE), 123)
-//                }
-
-
-//  Este bloque permite hacer la llamada pasando antes por el marcador del telefono
                 val diale = Intent(Intent.ACTION_DIAL)
-                diale.data = Uri.parse("tel:${list[position].telefono}")
+                diale.data = Uri.parse("tel:${list[position].phone}")
                 startActivity(diale)
             }
             /* Para llamar a algun elemento en especifico
@@ -194,7 +184,7 @@ class AmbulanciasActivity : AppCompatActivity() {
 //        }
         }
 
-        override fun getItemCount() = ambulanciasListNear.size
+        override fun getItemCount() = list.size
     }
     class OptionsViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
         // variables en pantalla
@@ -203,20 +193,10 @@ class AmbulanciasActivity : AppCompatActivity() {
         val makeCallButton: ImageButton = itemView.findViewById(R.id.callButton)
         fun bind(ambulancia: Ambulancia) {
             // bindear cada opcion en pantalla para cada elemento de la lista
-            ambulanceName.text = ambulancia.nombre
-            ambulancePhone.text = ambulancia.telefono.toString()
+            ambulanceName.text = ambulancia.name
+            ambulancePhone.text = ambulancia.phone.toString()
 
         }
     }
 
 }
-private val ambulanciasListNear = listOf(
-    Ambulancia("Hospital Obrero", 22245518),
-    Ambulancia("Hospital Del Niño", 22441749),
-    Ambulancia("Clínica Del Sur", 22784003),
-    Ambulancia("S.S.U.", 22434262),
-    Ambulancia("Caja Petrolera", 22372160),
-    Ambulancia("Hospital Arco Iris", 74901912),
-    Ambulancia("PROSALUD", 22184100),
-    Ambulancia("Clínica Rengel", 227748888)
-)

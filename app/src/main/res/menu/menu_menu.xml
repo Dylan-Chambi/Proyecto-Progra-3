@@ -5,19 +5,19 @@
     <group>
         <item
             android:id="@+id/medicalCentersButton"
-            android:icon="@drawable/cruz_roja"
+            android:icon="@drawable/cross"
             android:title="Centros Medicos" />
         <item
             android:id="@+id/pharmacyButton"
-            android:icon="@drawable/farmacias_menu"
+            android:icon="@drawable/pharmacy"
             android:title="Farmacias" />
         <item
             android:id="@+id/ambulancesButton"
-            android:icon="@drawable/ambulancia"
+            android:icon="@drawable/ambulance"
             android:title="Ambulancias" />
         <item
             android:id="@+id/guidesButton"
-            android:icon="@drawable/libro"
+            android:icon="@drawable/book"
             android:title="Guias" />
         <item
             android:id="@+id/settingsButton"
@@ -33,7 +33,7 @@
                 android:title="Perfil" />
             <item
                 android:id="@+id/logOutButton"
-                android:icon="@drawable/cruz_roja"
+                android:icon="@drawable/log_out"
                 android:title="Cerrar Sesión" />
         </menu>
     </item>
