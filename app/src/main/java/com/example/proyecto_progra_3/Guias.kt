@@ -1,4 +1,5 @@
 package com.example.proyecto_progra_3
+
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
@@ -12,6 +13,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
@@ -22,6 +24,8 @@ import com.example.proyecto_progra_3.YouTubeResponse.Example
 import com.example.proyecto_progra_3.YouTubeResponse.Items
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -32,6 +36,11 @@ class Guias : AppCompatActivity() {
     private lateinit var drawer: DrawerLayout
     private lateinit var toogle: ActionBarDrawerToggle
     lateinit var recyclerViewGuias: RecyclerView
+    private lateinit var alertDialogMenu: AlertDialog
+    private lateinit var alertDialog: AlertDialog
+    private lateinit var databaseReference: DatabaseReference
+    private lateinit var database: FirebaseDatabase
+
 
 
 
@@ -40,15 +49,20 @@ class Guias : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_guias)
         drawer = findViewById(R.id.drawerLayoutMenu)
-
+        alertDialog = AlertDialog.Builder(this).apply {
+            setTitle("Cargando")
+            setMessage("Obteniendo datos de la nube...")
+            setCancelable(false)
+        }.create()
+        alertDialog.show()
+        auth = FirebaseAuth.getInstance()
+        database = FirebaseDatabase.getInstance()
+        databaseReference = database.reference.child("Users")
+        getDatabaseData()
         cargarVideos()
 
-
         val toolbar = findViewById<Toolbar>(R.id.toolbarGuides)
-
-
         val navMenu = findViewById<NavigationView>(R.id.navigationViewMenu)
-
 
         toogle = ActionBarDrawerToggle(this, drawer, toolbar,R.string.open, R.string.close)
         drawer.addDrawerListener(toogle)
@@ -86,9 +100,29 @@ class Guias : AppCompatActivity() {
                      */
                 }
                 R.id.profileButton -> showLongMessage(this,"Click on Profile")
-                R.id.logOutButton -> logOut()
+                R.id.logOutButton -> {
+                    alertDialogMenu = AlertDialog.Builder(this).apply {
+                        setTitle("Cerrando Sesion...")
+                        setMessage("¿Seguro que quieres cerrar sesion?")
+                        setPositiveButton("SI") { _, _ ->
+                            logOut()
+                        }
+                        setCancelable(false)
+                        setNegativeButton("NO") { _, _ -> }
+                    }.create()
+                    alertDialogMenu.show()
+                }
             }
             true
+        }
+    }
+
+    private fun getDatabaseData(){
+        val user = auth.currentUser!!.uid
+        databaseReference = FirebaseDatabase.getInstance().getReference("Users")
+        databaseReference.child(user).get().addOnSuccessListener {
+            findViewById<TextView>(R.id.userNameFirebase).text = it.child("userName").value.toString()
+            findViewById<TextView>(R.id.userEmailFirebase).text = it.child("userEmail").value.toString()
         }
     }
 
@@ -97,25 +131,31 @@ class Guias : AppCompatActivity() {
             override fun onResponse(call: Call<Example>, response: Response<Example>) {
 //                Toast.makeText(this@Guias, response.body().toString(), Toast.LENGTH_SHORT).show()
                 val answer = response.body() as Example
-                recyclerViewGuias = findViewById(R.id.recyclerViewGuias)
-                val adapter = guiasRecyclerViewAdapter(this@Guias, answer.items)
-                val layoutManager = LinearLayoutManager(this@Guias)
-                recyclerViewGuias.adapter = adapter
-                recyclerViewGuias.layoutManager = layoutManager
+                if(answer.items.isNotEmpty()) {
+                    recyclerViewGuias = findViewById(R.id.recyclerViewGuias)
+                    val adapter = guiasRecyclerViewAdapter(this@Guias, answer.items)
+                    val layoutManager = LinearLayoutManager(this@Guias)
+                    recyclerViewGuias.adapter = adapter
+                    recyclerViewGuias.layoutManager = layoutManager
+                }else{
+                    showLongMessage(this@Guias, "No se encontraron videos")
+                }
+                alertDialog.dismiss()
             }
 
             override fun onFailure(call: Call<Example>, t: Throwable) {
                 Toast.makeText(this@Guias, "ERROR!", Toast.LENGTH_SHORT).show()
+                alertDialog.dismiss()
             }
 
         })
     }
 
-    private fun logOut(){
+    private fun logOut() {
         auth.signOut()
         val intent = Intent(this, MainActivity::class.java)
         startActivity(intent)
-        showLongMessage(this, "Log Out successfully")
+        showLongMessage(this, "Salio de su cuenta satisfactoriamente")
         finish()
     }
     //para que el boton funcione
@@ -169,55 +209,3 @@ class Guias : AppCompatActivity() {
         }
     }
 }
-
-private val guiasList = listOf(
-    Guia("https://i.ytimg.com/vi/qR9s7oGMuNE/default.jpg", "Cuidados del paciente " +
-            "con CoVID-19 en el hogar", "Me diagnosticaron COVID-19 y me dijeron que " +
-            "me debía quedar en casa: Si a usted o a un miembro de su familia le diagnosticaron " +
-            "COVID-19 y no ha ...", "https://www.youtube.com/watch?v=yIVspK_seNE"),
-    Guia("https://i.ytimg.com/vi/qR9s7oGMuNE/default.jpg", "Cuidados del paciente " +
-            "con CoVID-19 en el hogar", "Me diagnosticaron COVID-19 y me dijeron que " +
-            "me debía quedar en casa: Si a usted o a un miembro de su familia le diagnosticaron " +
-            "COVID-19 y no ha ...", "https://www.youtube.com/watch?v=yIVspK_seNE"),
-    Guia("https://i.ytimg.com/vi/qR9s7oGMuNE/default.jpg", "Cuidados del paciente " +
-            "con CoVID-19 en el hogar", "Me diagnosticaron COVID-19 y me dijeron que " +
-            "me debía quedar en casa: Si a usted o a un miembro de su familia le diagnosticaron " +
-            "COVID-19 y no ha ...", "https://www.youtube.com/watch?v=yIVspK_seNE"),
-    Guia("https://i.ytimg.com/vi/qR9s7oGMuNE/default.jpg", "Cuidados del paciente " +
-            "con CoVID-19 en el hogar", "Me diagnosticaron COVID-19 y me dijeron que " +
-            "me debía quedar en casa: Si a usted o a un miembro de su familia le diagnosticaron " +
-            "COVID-19 y no ha ...", "https://www.youtube.com/watch?v=yIVspK_seNE"),
-    Guia("https://i.ytimg.com/vi/qR9s7oGMuNE/default.jpg", "Cuidados del paciente " +
-            "con CoVID-19 en el hogar", "Me diagnosticaron COVID-19 y me dijeron que " +
-            "me debía quedar en casa: Si a usted o a un miembro de su familia le diagnosticaron " +
-            "COVID-19 y no ha ...", "https://www.youtube.com/watch?v=yIVspK_seNE"),
-    Guia("https://i.ytimg.com/vi/qR9s7oGMuNE/default.jpg", "Cuidados del paciente " +
-            "con CoVID-19 en el hogar", "Me diagnosticaron COVID-19 y me dijeron que " +
-            "me debía quedar en casa: Si a usted o a un miembro de su familia le diagnosticaron " +
-            "COVID-19 y no ha ...", "https://www.youtube.com/watch?v=yIVspK_seNE"),
-    Guia("https://i.ytimg.com/vi/qR9s7oGMuNE/default.jpg", "Cuidados del paciente " +
-            "con CoVID-19 en el hogar", "Me diagnosticaron COVID-19 y me dijeron que " +
-            "me debía quedar en casa: Si a usted o a un miembro de su familia le diagnosticaron " +
-            "COVID-19 y no ha ...", "https://www.youtube.com/watch?v=yIVspK_seNE"),
-    Guia("https://i.ytimg.com/vi/qR9s7oGMuNE/default.jpg", "Cuidados del paciente " +
-            "con CoVID-19 en el hogar", "Me diagnosticaron COVID-19 y me dijeron que " +
-            "me debía quedar en casa: Si a usted o a un miembro de su familia le diagnosticaron " +
-            "COVID-19 y no ha ...", "https://www.youtube.com/watch?v=yIVspK_seNE"),
-    Guia("https://i.ytimg.com/vi/qR9s7oGMuNE/default.jpg", "Cuidados del paciente " +
-            "con CoVID-19 en el hogar", "Me diagnosticaron COVID-19 y me dijeron que " +
-            "me debía quedar en casa: Si a usted o a un miembro de su familia le diagnosticaron " +
-            "COVID-19 y no ha ...", "https://www.youtube.com/watch?v=yIVspK_seNE"),
-    Guia("https://i.ytimg.com/vi/qR9s7oGMuNE/default.jpg", "Cuidados del paciente " +
-            "con CoVID-19 en el hogar", "Me diagnosticaron COVID-19 y me dijeron que " +
-            "me debía quedar en casa: Si a usted o a un miembro de su familia le diagnosticaron " +
-            "COVID-19 y no ha ...", "https://www.youtube.com/watch?v=yIVspK_seNE"),
-    Guia("https://i.ytimg.com/vi/qR9s7oGMuNE/default.jpg", "Cuidados del paciente " +
-            "con CoVID-19 en el hogar", "Me diagnosticaron COVID-19 y me dijeron que " +
-            "me debía quedar en casa: Si a usted o a un miembro de su familia le diagnosticaron " +
-            "COVID-19 y no ha ...", "https://www.youtube.com/watch?v=yIVspK_seNE"),
-    Guia("https://i.ytimg.com/vi/qR9s7oGMuNE/default.jpg", "Cuidados del paciente " +
-            "con CoVID-19 en el hogar", "Me diagnosticaron COVID-19 y me dijeron que " +
-            "me debía quedar en casa: Si a usted o a un miembro de su familia le diagnosticaron " +
-            "COVID-19 y no ha ...", "https://www.youtube.com/watch?v=yIVspK_seNE")
-
-)

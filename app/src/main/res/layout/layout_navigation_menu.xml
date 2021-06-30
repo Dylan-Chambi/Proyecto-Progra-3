@@ -22,15 +22,14 @@
         android:layout_height="wrap_content"
         android:paddingTop="8dp"
         android:textSize="20dp"
-        android:text="Dylan Chambi"
         android:textColor="@color/white"
         android:textStyle="bold"/>
 
     <TextView
+        android:id="@+id/userEmailFirebase"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="16dp"
-        android:text="dylanchambifi@gmail.com"
         android:textColor="@color/white"/>
 
 

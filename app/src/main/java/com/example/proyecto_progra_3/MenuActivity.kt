@@ -4,11 +4,16 @@ import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
+import android.widget.TextView
 import androidx.appcompat.app.ActionBarDrawerToggle
+import androidx.appcompat.app.AlertDialog
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import com.example.proyecto_progra_3.databinding.ActivityMenuBinding
+import com.example.proyecto_progra_3.databinding.LayoutNavigationMenuBinding
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.*
+import com.google.firebase.ktx.Firebase
 
 class MenuActivity : AppCompatActivity() {
 
@@ -16,6 +21,9 @@ class MenuActivity : AppCompatActivity() {
     private lateinit var auth: FirebaseAuth
     private lateinit var toogle: ActionBarDrawerToggle
     private lateinit var drawer: DrawerLayout
+    private lateinit var alertDialogMenu: AlertDialog
+    private lateinit var database: FirebaseDatabase
+    private lateinit var databaseReference: DatabaseReference
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -24,7 +32,9 @@ class MenuActivity : AppCompatActivity() {
         bindingMenu = ActivityMenuBinding.inflate(layoutInflater)
         setContentView(bindingMenu.root)
         auth = FirebaseAuth.getInstance()
-
+        database = FirebaseDatabase.getInstance()
+        databaseReference = database.reference.child("Users")
+        getDatabaseData()
         val toolbar = bindingMenu.toolBarMenu
         val farmaciasButton = bindingMenu.fondoFarmacias
         val centrosMEdicosButton = bindingMenu.fondoCentrosMedicos
@@ -69,7 +79,18 @@ class MenuActivity : AppCompatActivity() {
                      */
                 }
                 R.id.profileButton -> showLongMessage(this,"Click on Profile")
-                R.id.logOutButton -> logOut()
+                R.id.logOutButton -> {
+                    alertDialogMenu = AlertDialog.Builder(this).apply {
+                        setTitle("Cerrando Sesion...")
+                        setMessage("¿Seguro que quieres cerrar sesion?")
+                        setPositiveButton("SI") { _, _ ->
+                            logOut()
+                        }
+                        setCancelable(false)
+                        setNegativeButton("NO") { _, _ -> }
+                    }.create()
+                    alertDialogMenu.show()
+                }
             }
             true
         }
@@ -92,11 +113,20 @@ class MenuActivity : AppCompatActivity() {
         }
 
     }
-    private fun logOut(){
+    private fun getDatabaseData(){
+        val user = auth.currentUser!!.uid
+        databaseReference = FirebaseDatabase.getInstance().getReference("Users")
+        databaseReference.child(user).get().addOnSuccessListener {
+            findViewById<TextView>(R.id.userNameFirebase).text = it.child("userName").value.toString()
+            findViewById<TextView>(R.id.userEmailFirebase).text = it.child("userEmail").value.toString()
+        }
+    }
+
+    private fun logOut() {
         auth.signOut()
         val intent = Intent(this, MainActivity::class.java)
         startActivity(intent)
-        showLongMessage(this, "Log Out successfully")
+        showLongMessage(this, "Salio de su cuenta satisfactoriamente")
         finish()
     }
     //para que el boton funcione

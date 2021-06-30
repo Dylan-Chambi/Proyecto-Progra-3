@@ -14,18 +14,26 @@ import android.os.Looper
 import android.view.*
 import android.widget.*
 import androidx.appcompat.app.ActionBarDrawerToggle
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.Toolbar
 import androidx.core.app.ActivityCompat
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.proyecto_progra_3.googleMapsPlacesResponse.PlacesResults
+import com.example.proyecto_progra_3.googleMapsPlacesResponse.Result
 import com.google.android.gms.location.*
 import com.google.android.gms.maps.*
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class FarmaciasActivity : AppCompatActivity(), OnMapReadyCallback {
     lateinit var recyclerViewFarmacia: RecyclerView
@@ -36,6 +44,12 @@ class FarmaciasActivity : AppCompatActivity(), OnMapReadyCallback {
     private lateinit var drawer: DrawerLayout
     private lateinit var toogle: ActionBarDrawerToggle
     private lateinit var searchActivity: ImageButton
+    private lateinit var alertDialog: AlertDialog
+    private lateinit var alertDialogMenu: AlertDialog
+    private lateinit var databaseReference: DatabaseReference
+    private lateinit var database: FirebaseDatabase
+
+
     var userLocation: LatLng? = null
 
     companion object {
@@ -48,14 +62,17 @@ class FarmaciasActivity : AppCompatActivity(), OnMapReadyCallback {
         setContentView(R.layout.activity_farmacias)
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this)
         recyclerViewFarmacia = findViewById(R.id.recyclerViewP)
+
+        auth = FirebaseAuth.getInstance()
+        database = FirebaseDatabase.getInstance()
+        databaseReference = database.reference.child("Users")
+        getDatabaseData()
         createMapFragment()
+
         val toolbar = findViewById<Toolbar>(R.id.toolbarPharmacy)
-        val adapter = FarmaciasRecyclerViewAdapter(this, farmaciasListNear)
-        val layoutManager = LinearLayoutManager(this)
         val navMenu = findViewById<NavigationView>(R.id.navigationViewMenu)
+
         searchActivity = findViewById(R.id.searchActiviy)
-        recyclerViewFarmacia.adapter = adapter
-        recyclerViewFarmacia.layoutManager = layoutManager
 
         drawer = findViewById(R.id.drawerLayoutMenu)
 
@@ -95,7 +112,18 @@ class FarmaciasActivity : AppCompatActivity(), OnMapReadyCallback {
                      */
                 }
                 R.id.profileButton -> showLongMessage(this, "Click on Profile")
-                R.id.logOutButton -> logOut()
+                R.id.logOutButton -> {
+                    alertDialogMenu = AlertDialog.Builder(this).apply {
+                        setTitle("Cerrando Sesion...")
+                        setMessage("¿Seguro que quieres cerrar sesion?")
+                        setPositiveButton("SI") { _, _ ->
+                            logOut()
+                        }
+                        setCancelable(false)
+                        setNegativeButton("NO") { _, _ -> }
+                    }.create()
+                    alertDialogMenu.show()
+                }
             }
             true
         }
@@ -103,6 +131,51 @@ class FarmaciasActivity : AppCompatActivity(), OnMapReadyCallback {
             val intent = Intent(this, PharmacySearch::class.java)
             startActivity(intent)
         }
+    }
+
+    private fun getDatabaseData(){
+        val user = auth.currentUser!!.uid
+        databaseReference = FirebaseDatabase.getInstance().getReference("Users")
+        databaseReference.child(user).get().addOnSuccessListener {
+            findViewById<TextView>(R.id.userNameFirebase).text = it.child("userName").value.toString()
+            findViewById<TextView>(R.id.userEmailFirebase).text = it.child("userEmail").value.toString()
+        }
+    }
+
+    private fun onLocationChanged(location: LatLng) {
+        val key = getText(R.string.google_maps_key).toString()
+        val currentLocation = location.latitude.toString() + "," + location.longitude
+        val type = "pharmacy"
+        val googleMapAPI =
+            APIClient.getClientMedicalCenters()?.getNearBy(currentLocation, 150000, type, "", key)
+                ?.enqueue(object : Callback<PlacesResults> {
+                    override fun onResponse(call: Call<PlacesResults>, response: Response<PlacesResults>) {
+
+                        val answer: List<Result> = response.body()?.getResults()!!
+                        if(answer.isNotEmpty()) {
+                            answer.forEach{
+                                map.addMarker(MarkerOptions().position(it.geometry!!.location!!.getLatLng()))
+                            }
+                            val adapter = FarmaciasRecyclerViewAdapter(
+                                this@FarmaciasActivity,
+                                answer
+                            )
+                            val layoutManager = LinearLayoutManager(this@FarmaciasActivity)
+                            recyclerViewFarmacia.adapter = adapter
+                            recyclerViewFarmacia.layoutManager = layoutManager
+                            answer.forEach {
+                                map.addMarker(MarkerOptions().position(it.geometry!!.location!!.getLatLng()))
+                            }
+                        }else{
+                            showLongMessage(this@FarmaciasActivity, "No medical centers were found nearby")
+                        }
+                        alertDialog.dismiss()
+                    }
+                    override fun onFailure(call: Call<PlacesResults?>?, t: Throwable) {
+                        Toast.makeText(applicationContext, t.message, Toast.LENGTH_LONG).show()
+                        alertDialog.dismiss()
+                    }
+                })
     }
     private fun logOut(){
         auth.signOut()
@@ -134,9 +207,6 @@ class FarmaciasActivity : AppCompatActivity(), OnMapReadyCallback {
 
     override fun onMapReady(googleMap: GoogleMap) {
         map = googleMap
-        farmaciasListNear.forEach{
-            map.addMarker(MarkerOptions().position(it.latidud))
-        }
         if(!checkPermission()){
             requestPermissionLocation()
             return
@@ -147,15 +217,31 @@ class FarmaciasActivity : AppCompatActivity(), OnMapReadyCallback {
             requestPermissionLocation()
             return
         }else {
-            Handler(Looper.getMainLooper()).postDelayed(
-                {
-                    if (userLocation != null && checkPermission()) {
-                        map.animateCamera(CameraUpdateFactory.newLatLngZoom(userLocation!!, 16f))
-                    } else {
-                        showLongMessage(this, "Error getting location.")
-                    }
-                }, 1000
-            )
+            try {
+                alertDialog = AlertDialog.Builder(this).apply {
+                    setTitle("Cargando")
+                    setMessage("Obteniendo datos de la nube...")
+                    setCancelable(false)
+                }.create()
+                alertDialog.show()
+                Handler(Looper.getMainLooper()).postDelayed(
+                    {
+                        if (userLocation != null && checkPermission()) {
+                            onLocationChanged(userLocation!!)
+                            map.animateCamera(
+                                CameraUpdateFactory.newLatLngZoom(
+                                    userLocation!!,
+                                    16f
+                                )
+                            )
+                        } else {
+                            showLongMessage(this, "Error getting location.")
+                        }
+                    }, 1000
+                )
+            }catch (error: NullPointerException){
+                showLongMessage(this, "Error getting location.")
+            }
         }
 
     }
@@ -267,7 +353,7 @@ class FarmaciasActivity : AppCompatActivity(), OnMapReadyCallback {
         }
     }
 
-    inner class FarmaciasRecyclerViewAdapter(val context: Context, private val list: List<Localizacion>): RecyclerView.Adapter<OptionsViewHolder>() {
+    inner class FarmaciasRecyclerViewAdapter(val context: Context, private val list: List<Result>): RecyclerView.Adapter<OptionsViewHolder>() {
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): OptionsViewHolder {
             val layoutInflater = LayoutInflater.from(context)
@@ -278,10 +364,10 @@ class FarmaciasActivity : AppCompatActivity(), OnMapReadyCallback {
         override fun onBindViewHolder(holder: OptionsViewHolder, position: Int) {
             holder.bind(list[position])
             holder.itemView.setOnClickListener {
-                map.animateCamera(CameraUpdateFactory.newLatLngZoom(list[position].latidud, 16f))
+                map.animateCamera(CameraUpdateFactory.newLatLngZoom(list[position].geometry!!.location!!.getLatLng(), 16f))
             }
             holder.buttonSeleccionarCM.setOnClickListener {
-                Toast.makeText(this@FarmaciasActivity, "nombre: ${list[position].nombre} latitud: ${list[position].latidud.latitude} longitude: ${list[position].latidud.longitude}", Toast.LENGTH_LONG).show()
+
             }
             /* Para llamar a algun elemento en especifico
             holder.imageButton.setOnClickListener {
@@ -294,36 +380,17 @@ class FarmaciasActivity : AppCompatActivity(), OnMapReadyCallback {
 //            funcionMenuOptionClick?.invoke(list[position])
 //        }
         }
-        override fun getItemCount() = farmaciasListNear.size
+        override fun getItemCount() = list.size
     }
 
     class OptionsViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
         // variables en pantalla
         val nombreFarmacia: TextView = itemView.findViewById(R.id.nombre)
         val buttonSeleccionarCM: Button = itemView.findViewById(R.id.selectPharmacy)
-        fun bind(Localizacion: Localizacion) {
+        fun bind(result: Result) {
             // bindear cada opcion en pantalla para cada elemento de la lista
-            nombreFarmacia.text = Localizacion.nombre
+            nombreFarmacia.text = result.name
 
         }
     }
 }
-
-private val farmaciasListNear = listOf(
-    Localizacion("Farmacias Bolivia Centro",LatLng(-16.500762838991538, -68.13311031737985)),
-    Localizacion("Farmacorp Prado",LatLng(-16.50344164456266, -68.1317027049167)),
-    Localizacion("Farmacias Chavez",LatLng(-16.499188355286304, -68.1333999130788)),
-    Localizacion("Farmacia Gloria",LatLng(-16.538828245112256, -68.08354062485503)),
-    Localizacion("Farmacia JuÃ¡rez",LatLng(-16.505190691346147, -68.12075132945577)),
-    Localizacion("Farmacias Bolivia Obrajes",LatLng(-16.53003930317316, -68.1004140390046)),
-    Localizacion("Todo Oxigeno",LatLng(-16.516427863082022, -68.142772549087)),
-    Localizacion("Oximed",LatLng(-16.503544591705797, -68.13773462332128)),
-    Localizacion("HP Medical SRL",LatLng(-16.51191758051096, -68.12878481503125)),
-    Localizacion("Farmacia Camacho",LatLng(-16.498817578255, -68.13422862991723)),
-    Localizacion("Farmacorp Avaroa",LatLng(-16.51128969182278, -68.12667967056024)),
-    Localizacion("Farmacia MediLucy",LatLng(-16.501249260317607, -68.10531755553932)),
-    Localizacion("Marca Medical",LatLng(-16.504552594230894, -68.12062149248311)),
-    Localizacion("Latin Med Bolivia",LatLng(-16.498876952871754, -68.12096686178442)),
-    Localizacion("Medicat SRL",LatLng(-16.541632100797813, -68.08997172135292)),
-    Localizacion("Disamed SRL",LatLng(-16.510872063400225, -68.12360351166465))
-)

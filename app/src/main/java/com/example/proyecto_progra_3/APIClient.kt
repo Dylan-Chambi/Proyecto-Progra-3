@@ -11,7 +11,7 @@ import retrofit2.http.Query
 
 object APIClient {
     private var retrofitYoutube: Retrofit? = null
-    private var retrofitGoogleMaps: Retrofit? = null
+    private var retrofitMedicalCenters: Retrofit? = null
     private val BASE_URL = "https://youtube.googleapis.com"
     private val BASE_URL_PLACES = "https://maps.googleapis.com/maps/api/"
 
@@ -25,20 +25,19 @@ object APIClient {
         return retrofitYoutube?.create(YoutubeAPI::class.java)
     }
 
-    fun getClientGoogleMaps(): GoogleMapsAPI?{
-        if(retrofitGoogleMaps == null) {
-            retrofitGoogleMaps = Retrofit.Builder()
+    fun getClientMedicalCenters(): GoogleMapsAPI?{
+        if(retrofitMedicalCenters == null) {
+            retrofitMedicalCenters = Retrofit.Builder()
                 .baseUrl(BASE_URL_PLACES)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()
         }
-        return retrofitGoogleMaps?.create(GoogleMapsAPI::class.java)
+        return retrofitMedicalCenters?.create(GoogleMapsAPI::class.java)
     }
 
 }
 
 interface YoutubeAPI{
-//    @Headers("Authorization: Bearer AIzaSyAprtyzLqPPeIJprReQb4vkin1oAoS6vl8")
     @GET("/youtube/v3/search")
 
     fun obtenerVideos(@Query("part") part: String,

@@ -26,6 +26,9 @@ import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
 import android.net.Uri
 import android.widget.ImageButton
+import androidx.appcompat.app.AlertDialog
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
 
 class AmbulanciasActivity : AppCompatActivity() {
 
@@ -34,6 +37,9 @@ class AmbulanciasActivity : AppCompatActivity() {
     private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
     private lateinit var drawer: DrawerLayout
     private lateinit var toogle: ActionBarDrawerToggle
+    private lateinit var alertDialogMenu: AlertDialog
+    private lateinit var databaseReference: DatabaseReference
+    private  lateinit var database: FirebaseDatabase
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
@@ -51,6 +57,10 @@ class AmbulanciasActivity : AppCompatActivity() {
         val navMenu = findViewById<NavigationView>(R.id.navigationViewMenu)
         recyclerViewAmbulancias.adapter = adapter
         recyclerViewAmbulancias.layoutManager = layoutManager
+        auth = FirebaseAuth.getInstance()
+        database = FirebaseDatabase.getInstance()
+        databaseReference = database.reference.child("Users")
+        getDatabaseData()
 
         drawer = findViewById(R.id.drawerLayoutMenu)
         toogle = ActionBarDrawerToggle(this, drawer, toolbar,R.string.open, R.string.close)
@@ -89,17 +99,37 @@ class AmbulanciasActivity : AppCompatActivity() {
                      */
                 }
                 R.id.profileButton -> showLongMessage(this,"Click on Profile")
-                R.id.logOutButton -> logOut()
+                R.id.logOutButton -> {
+                    alertDialogMenu = AlertDialog.Builder(this).apply {
+                        setTitle("Cerrando Sesion...")
+                        setMessage("¿Seguro que quieres cerrar sesion?")
+                        setPositiveButton("SI") { _, _ ->
+                            logOut()
+                        }
+                        setCancelable(false)
+                        setNegativeButton("NO") { _, _ -> }
+                    }.create()
+                    alertDialogMenu.show()
+                }
             }
             true
         }
     }
 
-    private fun logOut(){
+    private fun getDatabaseData(){
+        val user = auth.currentUser!!.uid
+        databaseReference = FirebaseDatabase.getInstance().getReference("Users")
+        databaseReference.child(user).get().addOnSuccessListener {
+            findViewById<TextView>(R.id.userNameFirebase).text = it.child("userName").value.toString()
+            findViewById<TextView>(R.id.userEmailFirebase).text = it.child("userEmail").value.toString()
+        }
+    }
+
+    private fun logOut() {
         auth.signOut()
         val intent = Intent(this, MainActivity::class.java)
         startActivity(intent)
-        showLongMessage(this, "Log Out successfully")
+        showLongMessage(this, "Salio de su cuenta satisfactoriamente")
         finish()
     }
     //para que el boton funcione

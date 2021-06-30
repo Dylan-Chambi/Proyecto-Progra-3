@@ -13,6 +13,7 @@ import android.os.Looper
 import android.view.*
 import android.widget.*
 import androidx.appcompat.app.ActionBarDrawerToggle
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.app.ActivityCompat
@@ -28,12 +29,12 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
-import okhttp3.OkHttpClient
-import okhttp3.Request
-import org.json.JSONObject
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.lang.NullPointerException
 
 
 class CentrosMedicosMapActivity : AppCompatActivity(), OnMapReadyCallback {
@@ -42,9 +43,14 @@ class CentrosMedicosMapActivity : AppCompatActivity(), OnMapReadyCallback {
     private lateinit var auth: FirebaseAuth
     lateinit var fusedLocationProviderClient: FusedLocationProviderClient
     lateinit var locationRequest: LocationRequest
+    private lateinit var alertDialog: AlertDialog
+    private lateinit var alertDialogMenu: AlertDialog
     private lateinit var drawer: DrawerLayout
     private lateinit var toogle: ActionBarDrawerToggle
     private lateinit var googleMapAPI: GoogleMapsAPI
+    private lateinit var databaseReference: DatabaseReference
+    private lateinit var database: FirebaseDatabase
+
     var userLocation: LatLng? = null
 
     companion object {
@@ -58,7 +64,13 @@ class CentrosMedicosMapActivity : AppCompatActivity(), OnMapReadyCallback {
         setContentView(R.layout.activity_centros_medicos_map)
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this)
         recyclerViewCentroMedico = findViewById(R.id.recyclerViewP)
+        auth = FirebaseAuth.getInstance()
+        database = FirebaseDatabase.getInstance()
+        databaseReference = database.reference.child("Users")
+        getDatabaseData()
         createMapFragment()
+
+
 
         val toolbar = findViewById<Toolbar>(R.id.toolBarMC)
         val navMenu = findViewById<NavigationView>(R.id.navigationViewMenu)
@@ -102,9 +114,28 @@ class CentrosMedicosMapActivity : AppCompatActivity(), OnMapReadyCallback {
                      */
                 }
                 R.id.profileButton -> showLongMessage(this, "Click on Profile")
-                R.id.logOutButton -> logOut()
+                R.id.logOutButton -> {
+                    alertDialogMenu = AlertDialog.Builder(this).apply {
+                        setTitle("Cerrando Sesion...")
+                        setMessage("¿Seguro que quieres cerrar sesion?")
+                        setPositiveButton("SI") { _, _ ->
+                            logOut()
+                        }
+                        setCancelable(false)
+                        setNegativeButton("NO") { _, _ -> }
+                    }.create()
+                    alertDialogMenu.show()
+                }
             }
             true
+        }
+    }
+    private fun getDatabaseData(){
+        val user = auth.currentUser!!.uid
+        databaseReference = FirebaseDatabase.getInstance().getReference("Users")
+        databaseReference.child(user).get().addOnSuccessListener {
+            findViewById<TextView>(R.id.userNameFirebase).text = it.child("userName").value.toString()
+            findViewById<TextView>(R.id.userEmailFirebase).text = it.child("userEmail").value.toString()
         }
     }
 
@@ -113,12 +144,15 @@ class CentrosMedicosMapActivity : AppCompatActivity(), OnMapReadyCallback {
         val currentLocation = location.latitude.toString() + "," + location.longitude
         val type = "hospital"
         val googleMapAPI =
-            APIClient.getClientGoogleMaps()?.getNearBy(currentLocation, 150000, type, "", key)
+            APIClient.getClientMedicalCenters()?.getNearBy(currentLocation, 150000, type, "", key)
                 ?.enqueue(object : Callback<PlacesResults> {
-                    override fun onResponse(call: Call<PlacesResults>, response: Response<PlacesResults>) {
+                    override fun onResponse(
+                        call: Call<PlacesResults>,
+                        response: Response<PlacesResults>
+                    ) {
 
                         val answer: List<Result> = response.body()?.getResults()!!
-                        if(answer.isNotEmpty()) {
+                        if (answer.isNotEmpty()) {
                             val adapter = CentrosmedicosRecyclerViewAdapter(
                                 this@CentrosMedicosMapActivity,
                                 answer
@@ -129,13 +163,18 @@ class CentrosMedicosMapActivity : AppCompatActivity(), OnMapReadyCallback {
                             answer.forEach {
                                 map.addMarker(MarkerOptions().position(it.geometry!!.location!!.getLatLng()))
                             }
-                        }else{
-                            showLongMessage(this@CentrosMedicosMapActivity, "No medical centers were found nearby")
+                        } else {
+                            showLongMessage(
+                                this@CentrosMedicosMapActivity,
+                                "No medical centers were found nearby"
+                            )
                         }
+                        alertDialog.dismiss()
                     }
 
                     override fun onFailure(call: Call<PlacesResults?>?, t: Throwable) {
                         Toast.makeText(applicationContext, t.message, Toast.LENGTH_LONG).show()
+                        alertDialog.dismiss()
                     }
                 })
     }
@@ -144,7 +183,7 @@ class CentrosMedicosMapActivity : AppCompatActivity(), OnMapReadyCallback {
         auth.signOut()
         val intent = Intent(this, MainActivity::class.java)
         startActivity(intent)
-        showLongMessage(this, "Log Out successfully")
+        showLongMessage(this, "Salio de su cuenta satisfactoriamente")
         finish()
     }
 
@@ -183,16 +222,31 @@ class CentrosMedicosMapActivity : AppCompatActivity(), OnMapReadyCallback {
             requestPermissionLocation()
             return
         } else {
-            Handler(Looper.getMainLooper()).postDelayed(
-                {
-                    if (userLocation != null && checkPermission()) {
-                        onLocationChanged(userLocation!!)
-                        map.animateCamera(CameraUpdateFactory.newLatLngZoom(userLocation!!, 16f))
-                    } else {
-                        showLongMessage(this, "Error getting location.")
-                    }
-                }, 1000
-            )
+            try {
+                alertDialog = AlertDialog.Builder(this).apply {
+                    setTitle("Cargando")
+                    setMessage("Obteniendo datos de la nube...")
+                    setCancelable(false)
+                }.create()
+                alertDialog.show()
+                Handler(Looper.getMainLooper()).postDelayed(
+                    {
+                        if (userLocation != null && checkPermission()) {
+                            onLocationChanged(userLocation!!)
+                            map.animateCamera(
+                                CameraUpdateFactory.newLatLngZoom(
+                                    userLocation!!,
+                                    16f
+                                )
+                            )
+                        } else {
+                            showLongMessage(this, "Error getting location.")
+                        }
+                    }, 1000
+                )
+            } catch (e: NullPointerException) {
+                showLongMessage(this, "Error getting location.")
+            }
         }
 
     }
@@ -345,14 +399,15 @@ class CentrosMedicosMapActivity : AppCompatActivity(), OnMapReadyCallback {
         override fun onBindViewHolder(holder: OptionsViewHolder, position: Int) {
             holder.bind(list[position])
             holder.itemView.setOnClickListener {
-                map.animateCamera(CameraUpdateFactory.newLatLngZoom(list[position].geometry!!.location!!.getLatLng(), 16f))
+                map.animateCamera(
+                    CameraUpdateFactory.newLatLngZoom(
+                        list[position].geometry!!.location!!.getLatLng(),
+                        16f
+                    )
+                )
             }
             holder.selectMedicalCenter.setOnClickListener {
-                Toast.makeText(
-                    this@CentrosMedicosMapActivity,
-                    "nombre: ${list[position].name} latitud: ${list[position].geometry!!.location!!.getLat()} longitude: ${list[position].geometry!!.location!!.getLng()}",
-                    Toast.LENGTH_LONG
-                ).show()
+                //ACTIVITY PARA CADA UNO
             }
             /* Para llamar a algun elemento en especifico
             holder.imageButton.setOnClickListener {
