@@ -145,7 +145,7 @@ class Guias : AppCompatActivity() {
         override fun onBindViewHolder(holder: OptionsViewHolder, position: Int) {
             holder.bind(context, list[position])
             holder.backgroundItem.setOnClickListener {
-                val intent = Intent(Intent.ACTION_VIEW, Uri.parse(list[position].snippet.thumbnails.default.url))
+                val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://www.youtube.com/watch?v=" + list[position].id.videoId))
                 startActivity(intent)
             }
 //        }
