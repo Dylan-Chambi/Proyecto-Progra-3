@@ -28,6 +28,9 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
+import okhttp3.OkHttpClient
+import okhttp3.Request
+import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -108,18 +111,27 @@ class CentrosMedicosMapActivity : AppCompatActivity(), OnMapReadyCallback {
     fun onLocationChanged(location: LatLng) {
         val key = getText(R.string.google_maps_key).toString()
         val currentLocation = location.latitude.toString() + "," + location.longitude
-        val radius = 1500
         val type = "hospital"
         val googleMapAPI =
-            APIClient.getClientGoogleMaps()?.getNearBy(currentLocation, 1500, type, "", key)
+            APIClient.getClientGoogleMaps()?.getNearBy(currentLocation, 150000, type, "", key)
                 ?.enqueue(object : Callback<PlacesResults> {
                     override fun onResponse(call: Call<PlacesResults>, response: Response<PlacesResults>) {
-                        val answer: List<Result> = response.body()?.getResults()!!
-                        val adapter = CentrosmedicosRecyclerViewAdapter(this@CentrosMedicosMapActivity, answer)
-                        val layoutManager = LinearLayoutManager(this@CentrosMedicosMapActivity)
-                        recyclerViewCentroMedico.adapter = adapter
-                        recyclerViewCentroMedico.layoutManager = layoutManager
 
+                        val answer: List<Result> = response.body()?.getResults()!!
+                        if(answer.isNotEmpty()) {
+                            val adapter = CentrosmedicosRecyclerViewAdapter(
+                                this@CentrosMedicosMapActivity,
+                                answer
+                            )
+                            val layoutManager = LinearLayoutManager(this@CentrosMedicosMapActivity)
+                            recyclerViewCentroMedico.adapter = adapter
+                            recyclerViewCentroMedico.layoutManager = layoutManager
+                            answer.forEach {
+                                map.addMarker(MarkerOptions().position(it.geometry!!.location!!.getLatLng()))
+                            }
+                        }else{
+                            showLongMessage(this@CentrosMedicosMapActivity, "No medical centers were found nearby")
+                        }
                     }
 
                     override fun onFailure(call: Call<PlacesResults?>?, t: Throwable) {
@@ -160,9 +172,7 @@ class CentrosMedicosMapActivity : AppCompatActivity(), OnMapReadyCallback {
 
     override fun onMapReady(googleMap: GoogleMap) {
         map = googleMap
-        centrosMedicosListNear.forEach {
-            map.addMarker(MarkerOptions().position(it.latidud))
-        }
+
         if (!checkPermission()) {
             requestPermissionLocation()
             return
@@ -370,25 +380,3 @@ class CentrosMedicosMapActivity : AppCompatActivity(), OnMapReadyCallback {
         }
     }
 }
-
-private val centrosMedicosListNear = listOf(
-    Localizacion("Centro Medico DarSalud", LatLng(-16.504024200101696, -68.13402742379976)),
-    Localizacion("Hospital Obrero", LatLng(-16.499304030713155, -68.11820522924992)),
-    Localizacion("Hospital San Gabriel", LatLng(-16.491417633237607, -68.1165448294589)),
-    Localizacion("Hospital Juan XXII", LatLng(-16.48754617592828, -68.15741547056331)),
-    Localizacion("Hospital Arco Iris", LatLng(-16.484140961667883, -68.1203588000111)),
-    Localizacion("Hospital Boliviano Holandes", LatLng(-16.52239640701212, -68.1536687705633)),
-    Localizacion("Hospital Municipal de Cotahuma", LatLng(-16.515550063703703, -68.1395231411155)),
-    Localizacion("Hospital Metodista", LatLng(-16.527081507360545, -68.10444582945891)),
-    Localizacion("Hospital Del Norte", LatLng(-16.490278176123415, -68.20442080001112)),
-    Localizacion(
-        "Hospital Universitario Nuestra Señora de La Paz",
-        LatLng(-16.526615250171098, -68.1281684411155)
-    ),
-    Localizacion("Hospital De Clinicas", LatLng(-16.507528699100344, -68.11873685052839)),
-    Localizacion("Clinica Alemana", LatLng(-16.513638592006387, -68.12143527056331)),
-    Localizacion("Clinica Del Sur", LatLng(-16.525696807215358, -68.10872318221992)),
-    Localizacion("Clinica Medica Lausanne", LatLng(-16.52942647892273, -68.11036190001111)),
-    Localizacion("Clinica Rengel", LatLng(-16.514459202414344, -68.12882499002932)),
-    Localizacion("Clinica AMID", LatLng(-16.505894134320183, -68.11913560001112))
-)
