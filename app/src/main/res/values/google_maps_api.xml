@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">
-        AIzaSyBg2_Oh21qhlhs7Zm1oQ-aBDww5nk70jN4
+        AIzaSyDHAY9Eoiho2P6y79ntNPo0t7wuSFHFtaI
     </string>
     <string name="youtube_api_key" templateMergeStrategy="preserve" translatable="false">
         AIzaSyAprtyzLqPPeIJprReQb4vkin1oAoS6vl8
