@@ -98,7 +98,7 @@
         android:layout_width="@dimen/edit_text_width"
         android:layout_height="@dimen/edit_text_height"
         android:ems="10"
-        android:hint=" Nombre y Apellido: "
+        android:hint="Nombre y Apellido: "
         android:inputType="textPersonName"
         android:drawableLeft="@drawable/ic_usuario"
         android:drawablePadding="10dp"

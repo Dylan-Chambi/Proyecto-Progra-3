@@ -1,12 +1,14 @@
 package com.example.proyecto_progra_3
 
 import android.Manifest
+import android.R.attr.name
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.Location
 import android.location.LocationManager
+import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -31,12 +33,9 @@ import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
-import okhttp3.OkHttpClient
-import okhttp3.Request
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import java.lang.NullPointerException
 
 
 class CentrosMedicosMapActivity : AppCompatActivity(), OnMapReadyCallback {
@@ -415,18 +414,14 @@ class CentrosMedicosMapActivity : AppCompatActivity(), OnMapReadyCallback {
                 )
             }
             holder.selectMedicalCenter.setOnClickListener {
-                //ACTIVITY PARA CADA UNO
-            }
-            /* Para llamar a algun elemento en especifico
-            holder.imageButton.setOnClickListener {
-                funcionMenuOptionClick?.invoke(list[position])
-            }
-            */
 
-            // En todo el elemento
-//        holder.itemView.setOnClickListener {
-//            funcionMenuOptionClick?.invoke(list[position])
-//        }
+                val gmmIntentUri = Uri.parse("geo:${list[position].geometry!!.location!!.lat},${list[position].geometry!!.location!!.lng}")
+                val mapIntent = Intent(Intent.ACTION_VIEW, gmmIntentUri)
+                mapIntent.setPackage("com.google.android.apps.maps")
+                mapIntent.resolveActivity(packageManager)?.let {
+                    startActivity(mapIntent)
+                }
+            }
         }
 
         override fun getItemCount() = list.size
